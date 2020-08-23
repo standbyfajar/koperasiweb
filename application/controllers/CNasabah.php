@@ -8,7 +8,7 @@ class CNasabah extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('form');
+		$this->load->helper('form','url');
 		$this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->model('ModelGue');
@@ -58,18 +58,18 @@ class CNasabah extends CI_Controller
 			$nama=$this->input->post('nama');
 			$tmpt= $this->input->post('tmptlhr');
 			$tgl=$this->input->post('tgllahir');
+			$usia=$this->input->post('usia');
 			$jen=$this->input->post('jk');
 			$type=$this->input->post('type');
 			$noidentitas=$this->input->post('noidentitas');
 			$alm=$this->input->post('alm');
 			$bank=$this->input->post('bank');
 			$rek=$this->input->post('rek');
-			$usia=$this->input->post('usia');
 			$tel=$this->input->post('tlp');
 			$gaji=$this->input->post('gaji');
 
 			$ft=$this->upload();
-			$ft2=$this->upload();
+			$ft2=$this->upload2();
 
 			
 			// validasi data double
@@ -85,13 +85,13 @@ class CNasabah extends CI_Controller
 				'nama_nasabah'=>$nama,
 				'tempat_lahir'=>$tmpt,
 				'tanggal_lahir'=>$tgl,
+				'usia'=>$usia,
 				'jenis_kelamin'=>$jen,
 				'type_identitas'=>$type,
 				'no_identitas'=>$noidentitas,
 				'alamat'=>$alm,
 				'Bank'=>$bank,
 				'no_rek'=>$rek,
-				'Usia'=>$usia,
 				'telepon'=>$tel,
 				'Gaji'=>$gaji,
 				'Foto'=>$ft,
@@ -120,11 +120,33 @@ class CNasabah extends CI_Controller
 				$nb=rand().'.'.$eks[1];
 
 				$config['file_name']=$nb;
-				$config['upload_path'] ='././image';
+				$config['upload_path'] ='./image';
 				$config['allowed_types']='gif|jpg|png|jpeg';
 
 				$this->load->library('upload',$config);
 				$this->upload->do_upload('ft');
+				return $nb;
+
+			}else{
+				$namafoto=$this->input->post('ftlama');
+				return($namafoto);
+			}
+		}
+	}
+	function upload2(){
+		if (isset($_FILES['ft2'])) {
+			if ($_FILES['ft2']['name'] !="") {
+				$eks=explode('.',$_FILES['ft2']['name']);
+				$nb=rand().'.'.$eks[1];
+
+				$config['file_name']=$nb;
+				$config['upload_path'] ='./image';
+				$config['allowed_types']='gif|jpg|png|jpeg';
+			
+
+				$this->load->library('upload',$config);
+				$this->upload->do_upload('ft2');
+				
 				return $nb;
 
 			}else{

@@ -83,13 +83,13 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Tanggal lahir</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tgllahir" onkeypress ="">
+                                                <input type="date" name="tgllahir" onkeypress ="" id="tgllahir">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Usia</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="usia" ReadOnly disabled>
+                                                <input type="text" name="usia" ReadOnly  id="usia">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -140,6 +140,7 @@
                                                     <input type="text" name="rek" onkeypress ="">
                                                     </div>
                                                 </div>
+                                            
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Telepon</label>
@@ -157,13 +158,15 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Foto</label>
                                                     <div class="col-sm-2">
-                                                    <input type="File" name="ft" accept=".jpg,.png,.jpeg">
+                                                    <input type="File" name="ft" accept=".jpg,.png,.jpeg" onchange="bacaGambar(this)">
+                                                    <img id="preview" src="" alt="" width="80px"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Foto KTP</label>
                                                     <div class="col-sm-2">
-                                                    <input type="File" name="ft2" accept=".jpg,.png,.jpeg">
+                                                    <input type="File" name="ft2" accept=".jpg,.png,.jpeg" onchange="ReviewPic(this)" >
+                                                    <img id="preview1" src="" alt="" width="80px"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -237,6 +240,37 @@
     
 </html>
 <script type="text/javascript">
+            $('#tgllahir').on('change', function() {
+                var dob = new Date(this.value);
+                var today = new Date();
+                var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+                $('#usia').val(age);
+            });
+                    function bacaGambar(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                    
+                        reader.onload = function (e) {
+                            $('#preview').attr('src', e.target.result);
+
+                        }
+                    
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                    }
+                    function ReviewPic(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                    
+                        reader.onload = function (e) {
+                            $('#preview1').attr('src', e.target.result);
+
+                        }
+                    
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                    }
+                      
 		function hanyaAngka(evt) {
 				// alert('a');
 				  var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -253,7 +287,10 @@
 			            return false;        
 			         return true;
 				}
+
 </script>
+
+
 
 <!-- <?php if (isset($pesan)) {?>
 <?php if($pesan !== ""){ ?>
@@ -269,3 +306,4 @@
 	</script>
 
 <?php } } ?> -->
+

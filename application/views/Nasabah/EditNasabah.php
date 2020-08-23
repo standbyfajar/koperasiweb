@@ -58,7 +58,7 @@
                                                         <?php 
                                                                             } ?>
                                             <!-- awal pembuatan form -->
-                                    <form class="form-horizontal" action="<?php echo base_url('CNasabah/savenasabah') ?>" method="POST" name="formbook" enctype="multipart/form-data">
+                                    <form class="form-horizontal" action="<?php echo base_url('CNasabah/updatenasabah') ?>" method="POST" name="formbook" enctype="multipart/form-data">
                                       <div class="row">
                                           <div class="col-sm">
                                             <div class="form-group">
@@ -83,13 +83,13 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Tanggal lahir</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tgllahir" value="<?php echo $datakar->tanggal_lahir; ?>">
+                                                <input type="date" name="tgllahir" value="<?php echo $datakar->tanggal_lahir; ?>" id="tgllahir">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Usia</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="usia" value="<?php echo $datakar->usia; ?>" readonly>
+                                                <input type="text" name="usia" value="<?php echo $datakar->usia; ?>" readonly id="usia">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -114,26 +114,30 @@
                                                 <label class="col-sm-4 control-label">Type Identitas</label>
                                                 <div class="col-sm-4">
                                                 <?php 
-                                                        $checked_Single = false;
-                                                        $checked_Married = false;
+                                                        $checked_k = false;
+                                                        $checked_s = false;
 
                                                         if (strtolower($datakar->type_identitas) == 'KTP') {
-                                                            $checked_Single = true;
+                                                            $checked_k = true;
                                                         }else{
-                                                            $checked_Married = true;
+                                                            $checked_s = true;
                                                         } 
                                                     ?>
                                                 <select  class="form-control " id="type" name="type">
                                                     <option value="">Pilih</option> 
-                                                    <option value="KTP">KTP</option>
-                                                    <option value="SIM">SIM</option>
+                                                    <option <?php if($checked_k == true){
+                                                         echo "selected"; 
+                                                         } ?> value="KTP">KTP</option>
+                                                    <option <?php if($checked_s == true){
+                                                         echo "selected"; 
+                                                         } ?> value="SIM">SIM</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label">No Identitas</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="noidentitas" onkeypress ="">
+                                                <input type="text" name="noidentitas" value="<?php echo $datakar->no_identitas; ?>">
                                                 </div>
                                             </div>
                                             
@@ -144,46 +148,52 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Alamat</label>
                                                     <div class="col-sm-2">
-                                                        <textarea name="alm" placeholder="isi alamat" ></textarea>
-                                                    <!-- <input type="textarea" name="alm" placeholder="isi alamat..."> -->
+                                                        <input type="text" name="alm" value="<?php echo $datakar->alamat; ?>" >
+                                
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Nama Bank</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="bank" onkeypress ="">
+                                                    <input type="text" name="bank" value="<?php echo $datakar->Bank; ?>" >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">No Rek</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="rek" onkeypress ="">
+                                                    <input type="text" name="rek" onkeypress ="" value="<?php echo $datakar->no_rek; ?>">
                                                     </div>
                                                 </div>
+                                             
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Telepon</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="tlp" onkeypress="return hanyaAngka(event)">
+                                                    <input type="text" name="tlp" onkeypress="return hanyaAngka(event)" value="<?php echo $datakar->telepon; ?>">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Gaji</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="gaji" onkeypress="return hanyaAngka(event)">
+                                                    <input type="text" name="gaji" onkeypress="return hanyaAngka(event)" value="<?php echo $datakar->Gaji; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Foto</label>
                                                     <div class="col-sm-2">
-                                                    <input type="File" name="ft" accept=".jpg,.png,.jpeg">
+                                                    <!-- <input type="hidden" name="ftlama" value="<//?php echo $datakar->Foto; ?>"> -->
+                                                    <img src="<?php echo base_url('image/'.$datakar->Foto.'');?>" height="50px" width="50px">
+                                                    <input type="File" name="ft" accept=".jpg,.png,.jpeg" onchange="bacaGambar(this)">
+                                                    <img id="preview" src="" alt="" height="50px" width="50px"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Foto KTP</label>
                                                     <div class="col-sm-2">
-                                                    <input type="File" name="ft2" accept=".jpg,.png,.jpeg">
+                                                    <img src="<?php echo base_url('image/'.$datakar->Foto_identitas.'');?>" height="50px" width="50px">
+                                                    <input type="File" name="ft2" accept=".jpg,.png,.jpeg" onchange="ReviewPic(this)">
+                                                    <img id="preview1" src="" alt="" width="150px"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -257,6 +267,36 @@
     
 </html>
 <script type="text/javascript">
+                    $('#tgllahir').on('change', function() {
+                                    var dob = new Date(this.value);
+                                    var today = new Date();
+                                    var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+                                    $('#usia').val(age);
+                                });
+                    function bacaGambar(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                    
+                        reader.onload = function (e) {
+                            $('#preview').attr('src', e.target.result);
+
+                        }
+                    
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                    }
+                    function ReviewPic(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                    
+                        reader.onload = function (e) {
+                            $('#preview1').attr('src', e.target.result);
+
+                        }
+                    
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                    }
 		function hanyaAngka(evt) {
 				// alert('a');
 				  var charCode = (evt.which) ? evt.which : event.keyCode;

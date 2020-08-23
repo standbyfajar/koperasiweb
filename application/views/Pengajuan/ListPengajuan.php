@@ -53,17 +53,17 @@
 				<div class="col-sm-12">
 							<!-- untuk isi -->
 							<div class="panel panel-info">
-								<div class="panel-heading">Daftar Nasabah</div>
+								<div class="panel-heading">Daftar Pengajuan</div>
 							<div class="panel-body">
 							<table class="table" id="tbl_one">
 							<thead>
 								<tr>
 								<th>No</th>
-								<th>Id Nasabah</th>
-								<th>Nama Nasabah</th>
-								<th>Tempat Lahir</th>
-								<th>Tanggal Lahir</th>
-								<th>Type Identitas</th>
+								<th>Id Transaksi</th>
+								<!-- <th>Tanggal Transaksi</th> -->
+								<th>Nomor Nasabah</th>
+								<th>Tanggal Peminjaman</th>
+								<th>Keterangan</th>
 								<th>Aksi &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CNasabah/tambahnasabah'); ?>"  role="button" title="New">
 									<span class="glyphicon glyphicon-plus"></span> New</a>
 									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
@@ -79,11 +79,11 @@
 							?>
 							<tr>
 								<td><?php echo $n; ?></td>
+								<td><?php echo $row->nomor_transaksi; ?></td>
+								<!-- <td><//?php echo $row->tanggal_transaksi; ?></td> -->
 								<td><?php echo $row->nomor_nasabah; ?></td>
-								<td><?php echo $row->nama_nasabah; ?></td>
-								<td><?php echo $row->tempat_lahir; ?></td>
-								<td><?php echo $row->tanggal_lahir; ?></td>
-								<td><?php echo $row->type_identitas; ?></td>
+								<td><?php echo $row->tanggal_peminjaman; ?></td>
+								<td><?php echo $row->keterangan; ?></td>
 								<!-- <td><?php //echo $row->jenis_kelamin; ?></td>
 								<td><?php //echo $row->nomor_telpon; ?></td>
 								<td><?php //echo $row->gaji; ?></td>
