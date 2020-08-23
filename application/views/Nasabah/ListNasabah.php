@@ -180,43 +180,51 @@
 										
 										<div class="modal-body" style="overflow: auto;">
 
-								<div class="col-sm-6">
+								<div class="col-sm-12">
 									<form class="form-horizontal" action="<?php echo base_url('') ?>" method="POST" name="formbook" enctype="multipart/form-data">
+									<div class="row">
+										<div class="col-sm">
+											<div class="form-group">
+											<label class="col-sm-2 control-label">Nomor Nasabah</label>
+											<div class="col-sm-2">
+											<input type="text" id="id" value="" readonly>
+											
+										</div></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Nama Nasabah</label>
+											<div class="col-sm-3">
+											<input type="text" id="nama" readonly>
+										</div></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Tanggal Lahir</label>
+											<div class="col-sm-2">
+											<input type="text" id="eml" readonly>
+										</div></div>
 
-									<div class="form-group">
-										<label class="col-sm-2 control-label">Nomor Nasabah</label>
-										<div class="col-sm-2">
-										<input type="text" id="id" value="" readonly>
-										
-									</div></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">Nama Nasabah</label>
-										<div class="col-sm-2">
-										<input type="text" id="nama" readonly>
-									</div></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">Tanggal Lahir</label>
-										<div class="col-sm-2">
-										<input type="text" id="eml" readonly>
-									</div></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Tempat Lahir</label>
+											<div class="col-sm-2">
+											<input type="text" id="tmpt" readonly>
+											
+										</div></div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label">type Identitas</label>
+											<div class="col-sm-2">
+											<input type="text" id="type" readonly>
+										</div></div>
+											</div>
 
-									<div class="form-group">
-										<label class="col-sm-2 control-label">Tempat Lahir</label>
-										<div class="col-sm-2">
-										<input type="text" id="tmpt" readonly>
-										
-									</div></div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label">type Identitas</label>
-										<div class="col-sm-2">
-										<input type="text" id="type" readonly>
-									</div></div>
-									
-									
-									
-									
-								</form>
+										<div class="col-sm">
+										<div class="form-group">
+										<img src="" id="foto" class="img-responsive" width="300px">
+										</div>
+											</div>
+
+									</div>
+									</form>
 								</div>
+										
+							
 
 
 
@@ -233,6 +241,7 @@
       
 		</div>
   </div>
+  </body>
   <!-- footer -->
   <?php $this->load->view('Footer'); ?>
 
@@ -244,7 +253,7 @@
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
@@ -273,41 +282,33 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url('assets/AdminLTE/dist/js/demo.js')?>"></script>
 
-</body>
-
 
 <script type="text/javascript">
-	
-	$(document).ready(function(){
-
-		$('#tbl_one').DataTable();
-
-		$(document).on('click','.btn_detail',function(){
+	$(".btn_detail").click(function(){
 			nomor=$(this).attr("data-id");
-			
-				$.ajax({
-						url:"<?php echo base_url('CNasabah/get_nasabah/') ?>"+nomor_nasabah,
-						method:"POST",
-						dataType:"json",
-						success:function(data){
-							$('#id').val(data.nomor_nasabah);
-							$('#nama').val(data.nama_nasabah);
-							$('#eml').val(data.tanggal_lahir);
-							$('#tmpt').val(data.tempat_lahir);
-							$('#type').val(data.type_identitas);
-							
-							//$('#foto').attr('src','<?=base_url()?>/image/'+data.Foto);
+			// console.log(nomor);
+			$.ajax({url: "<?php echo base_url('CNasabah/get_nasabah/') ?>"+nomor, 
+			method :"POST",
+			dataType:"json",
+			success: function(result){
+				$("#id").val(result.nomor_nasabah);
+				$('#nama').val(result.nama_nasabah);
+				$('#eml').val(result.tanggal_lahir);
+				$('#tmpt').val(result.tempat_lahir);
+				$('#type').val(result.type_identitas);
+				$('#foto').attr('src','<?=base_url()?>image/'+result.Foto);
+			}});
 
 							$('#infoModal').modal("show");
-						},
-						error:function(xhr){
-							console.log(xhr);
-						}
-					});
-		})
+		// 				},
+		// 				error:function(xhr){
+		// 					console.log(xhr);
+		// 				}
+		// 			});
+	});
 
-		
-
+	$(document).ready(function(){
+		$('#tbl_one').DataTable();
 	});
 </script>
 
