@@ -1,6 +1,5 @@
 <?php
-
-class CPengajuan extends CI_Controller 
+class CPeminjaman extends CI_Controller
 {
     public function __construct()
 	{
@@ -13,11 +12,11 @@ class CPengajuan extends CI_Controller
 	}
 
 	function index(){
-		$hasil=$this->ModelGue->semuadata('pengajuan');
+		$hasil=$this->ModelGue->semuadata('peminjaman');
 		$data=array('datakr'=>$hasil);
-		$this->load->view('Pengajuan/ListPengajuan',$data);
-	}
-	function get_P($id){
+		$this->load->view('Peminjaman/ListPeminjaman',$data);
+    }
+    function get_P($id){
 		
 		$data = array('nomor_transaksi'=>$id);
 		$hasil = $this->ModelGue->GetWhere('pengajuan',$data); 
@@ -27,7 +26,7 @@ class CPengajuan extends CI_Controller
 	function tambahP(){
 		$hasil=$this->ModelGue->semuadata('pengajuan');
 		$data= array('datakar'=>$hasil);
-		$this->load->view('Pengajuan/NewPengajuan',$data);
+		$this->load->view('Peminjaman/NewPeminjaman',$data);
 	}
 
 	function saveP(){
@@ -78,53 +77,6 @@ class CPengajuan extends CI_Controller
 				// atau memanggil ke index
 				// $this->index()
 			}
-		}
-	}
-	public function editP($id){
-		$where = array('nomor_transaksi' =>$id );
-		$datanasabah=$this->ModelGue->GetWhere('pengajuan',$where);
-		$data=array('datakar'=>$datanasabah);
-		$this->load->view('Pengajuan/EditPengajuan',$data );
-	}
-	function updateP(){
-		$kod=$this->input->post('id');
-		$tgl=$this->input->post('tgl');
-		$tglpinjam= $this->input->post('tglpinjam');
-		$nomor=$this->input->post('nomor');
-		$ket=$this->input->post('ket');
-		$data = array('nomor_nasabah'=>$omor,'tanggal_transaksi'=>$tgl,'tanggal_peminjaman'=>$tglpinjam,
-		'keterangan'=>$ket);
-		
-		// simpan data ke tabel jurusan
-		$where=array('nomor_transaksi'=>$kod);
-		$this->ModelGue->update('pengajuan',$data,$where);
-		$a=base_url('CPengajuan');
-		redirect($a);
-		// atau memanggil ke index
-		// $this->barang();
-	}
-		function deletP($id_nasabah){
-		$syarat = array('nomor_Ttransaksi' => $id_nasabah );
-		$this->ModelGue->delete('pengajuan',$syarat);
-		redirect(base_url('CPengajuan'));
-	}	
-	function ckaryawan(){
-		var_dump('A');
-		$id=$this->input->post('nomor');
-		$data=$this->ModelData->tampil_nama($id);
-		$dt=$this->ModelData->cek_id($id);
-		$dataa=$dt->row();
-		if ($dt->num_rows()>0) {
-			$jar['nama']=$dataa->nama_nasabah;
-		
-		}
-		echo json_encode($jar);
-	}
-	function carinama(){
-		$nama=$this->input->get('nomor_nasabah');
-		$query=$this->ModelData->CariNama($nama);
-		foreach ($query->result() as $row ) {
-			echo "$row->nama_nasabah \n";
 		}
 	}
 }

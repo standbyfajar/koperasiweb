@@ -54,17 +54,18 @@
 				<div class="col-sm-12">
 							<!-- untuk isi -->
 							<div class="panel panel-info">
-								<div class="panel-heading">Daftar Pengajuan</div>
+								<div class="panel-heading">Daftar Peminjaman</div>
 							<div class="panel-body">
 							<table class="table" id="tbl_one">
 							<thead>
 								<tr>
 								<th>No</th>
-								<th>Id Transaksi</th>
-								<th>Nomor Nasabah</th>
-								<th>Tanggal Peminjaman</th>
+								<th>No Pinjam</th>
+								<th>Tanggal Transaksi</th>
+								<th>No Nasabah</th>
+								<th>Nominal</th>
 								<th>Keterangan</th>
-								<th>Status &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPengajuan/tambahP'); ?>"  role="button" title="New">
+								<th>Status &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPeminjaman/tambahP'); ?>"  role="button" title="New">
 									<span class="glyphicon glyphicon-plus"></span> New</a>
 									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
 							</tr>
@@ -79,9 +80,10 @@
 							?>
 							<tr>
 								<td><?php echo $n; ?></td>
-								<td><?php echo $row->nomor_transaksi; ?></td>
+								<td><?php echo $row->nomor_pinjam; ?></td>
+								<td><?php echo $row->tanggal_transaksi; ?></td>
 								<td><?php echo $row->nomor_nasabah; ?></td>
-								<td><?php echo $row->tanggal_peminjaman; ?></td>
+								<td><?php echo $row->nominal; ?></td>
 								<td><?php echo $row->keterangan; ?></td>
 								
 								<td><a class="btn btn-primary btn-xs btn-xx" role="button" title="Edit" href="#">
@@ -123,10 +125,10 @@
 											<table class="table">
 												<thead>
 													<th>No</th>
-													<th>No Transaksi</th>
-													<th>Nama Nasabah</th>
-													<th>Tanggal Pengajuan</th>
-													<th>Tanggal Pinjam</th>
+													<th>No Pinjam</th>
+													<th>Tanggal Transaksi</th>
+													<th>No Nasabah</th>
+													<th>Nominal</th>
 													
 
 												
@@ -142,9 +144,9 @@
 												<tbody>
 												<td><?php echo $n; ?></td>
 												<td><?php echo $row->nomor_transaksi; ?></td>
-												<td><?php echo $row->nomor_nasabah; ?></td>
 												<td><?php echo $row->tanggal_transaksi; ?></td>
-												<td><?php echo $row->tanggal_peminjaman; ?></td>
+												<td><?php echo $row->nomor_nasabah; ?></td>
+												<td><?php echo $row->nominal; ?></td>
 							
 												
 												</tbody><?php } ?>

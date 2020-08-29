@@ -49,7 +49,7 @@
                         <div class="col-sm-12">
                             <!-- untuk isi -->
                             <div class="panel panel-info">
-                                <div class="panel-heading">Formulir Input Pengajuan Baru</div><br>
+                                <div class="panel-heading">Formulir Input Peminjaman Baru</div><br>
                                     <div class="panel-body">
                                                     <?php if (isset($pesan)) {?>
                                                         <div class="alert alert-danger" role="alert">
@@ -64,24 +64,36 @@
                                       <div class="row">
                                           <div class="col-sm">
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label">No Transaksi</label>
+                                                <label class="col-sm-4 control-label">No Pengajuan</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="id" >
+                                                <input type="text" name="no_pengajuan" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label">Tanggal Transaksi</label>
+                                                <label class="col-sm-5 control-label">Tanggal Transaksi</label>
                                                 <div class="col-sm-2">
                                                 <input type="date" name="tgl" >
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label">Tanggal Peminjaman</label>
-                                                <div class="col-sm-2">
-                                                <input type="date" name="tglpinjam" id="tglpinjam">
+                                                    <label class="col-sm-5 control-label">No Transaksi</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="nomor" id="nomor"/>                                                    
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">No Nasabah</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="nasa" id="nasa"/>                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Total Tabungan</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="tot_tabungan" id="tot_tabungan"/>                                                    
+                                                    </div>
+                                                </div>
                                             <div class="form-group">
                                                         <label class="col-sm-2 control-label"></label>
                                                         <div class="col-sm-6">
@@ -92,13 +104,29 @@
                                             </div>
                                 
                                         <div class="col-sm">
-                                             
+                                           
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label">No Nasabah</label>
+                                                    <label class="col-sm-4 control-label">Nominal Pinjam</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="nomor" id="nomor"/>
-                                                    <label for="nomor" value="">aa</label>
-                                                    
+                                                    <input type="text" name="nominal" id="nominal"/>                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Cicialn</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="cicil" id="cicil"/>                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Bunga %</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="bunga" id="bunga"/>                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Cicilan/bulan</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="cicil_bulan" id="cicil_bulan"/>                                                    
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
