@@ -13,12 +13,10 @@
 
 
 -- Dumping database structure for koperasi
-DROP DATABASE IF EXISTS `koperasi`;
 CREATE DATABASE IF NOT EXISTS `koperasi` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `koperasi`;
 
 -- Dumping structure for table koperasi.admin
-DROP TABLE IF EXISTS `admin`;
 CREATE TABLE IF NOT EXISTS `admin` (
   `login_id` varchar(25) NOT NULL,
   `nama` varchar(25) DEFAULT NULL,
@@ -29,19 +27,18 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table koperasi.nasabah
-DROP TABLE IF EXISTS `nasabah`;
 CREATE TABLE IF NOT EXISTS `nasabah` (
   `nomor_nasabah` varchar(25) NOT NULL,
   `nama_nasabah` varchar(50) DEFAULT NULL,
   `tempat_lahir` varchar(50) DEFAULT NULL,
   `tanggal_lahir` datetime DEFAULT NULL,
+  `usia` int(11) DEFAULT NULL,
   `jenis_kelamin` varchar(20) DEFAULT NULL,
   `type_identitas` varchar(25) DEFAULT NULL,
   `no_identitas` varchar(25) DEFAULT NULL,
   `alamat` varchar(100) DEFAULT NULL,
   `Bank` varchar(15) DEFAULT NULL,
   `no_rek` int(11) DEFAULT NULL,
-  `usia` int(11) DEFAULT NULL,
   `telepon` varchar(20) DEFAULT NULL,
   `Gaji` int(11) DEFAULT NULL,
   `total_tabungan` int(11) DEFAULT NULL,
@@ -54,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `nasabah` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table koperasi.pelunasan
-DROP TABLE IF EXISTS `pelunasan`;
 CREATE TABLE IF NOT EXISTS `pelunasan` (
   `nomor_pelunasan` varchar(25) NOT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
@@ -67,24 +63,40 @@ CREATE TABLE IF NOT EXISTS `pelunasan` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table koperasi.peminjaman
-DROP TABLE IF EXISTS `peminjaman`;
 CREATE TABLE IF NOT EXISTS `peminjaman` (
-  `nomor_pinjam` varchar(25) NOT NULL,
+  `nomor_pengajuan` varchar(25) NOT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
+  `nomor_pinjam` varchar(25) NOT NULL,
   `nomor_nasabah` varchar(25) DEFAULT NULL,
-  `nominal` decimal(12,2) DEFAULT NULL,
+  `nominal` decimal(10,0) DEFAULT NULL,
+  `cicilan` decimal(10,0) DEFAULT NULL,
+  `bunga` int(11) DEFAULT NULL,
+  `kredit_bulan` decimal(10,0) DEFAULT NULL,
   `keterangan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`nomor_pinjam`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
+-- Dumping structure for table koperasi.pengajuan
+CREATE TABLE IF NOT EXISTS `pengajuan` (
+  `nomor_transaksi` varchar(25) NOT NULL,
+  `tanggal_transaksi` date DEFAULT NULL,
+  `nomor_nasabah` varchar(25) DEFAULT NULL,
+  `tanggal_peminjaman` date DEFAULT NULL,
+  `keterangan` varchar(50) DEFAULT NULL,
+  `status` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`nomor_transaksi`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
+
 -- Dumping structure for table koperasi.transaksi_tabungan
-DROP TABLE IF EXISTS `transaksi_tabungan`;
 CREATE TABLE IF NOT EXISTS `transaksi_tabungan` (
   `nomor_tabungan` varchar(10) NOT NULL,
   `nomor_nasabah` varchar(25) DEFAULT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
+  `bulan` varchar(2) DEFAULT NULL,
   `nominal` decimal(12,2) DEFAULT NULL,
   `keterangan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`nomor_tabungan`)
