@@ -64,6 +64,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="<?php echo base_url('CTabungan') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tabungan</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="<?php echo base_url('CPengajuan') ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pengajuan</p>

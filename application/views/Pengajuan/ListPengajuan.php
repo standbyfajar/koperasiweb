@@ -13,6 +13,7 @@
 
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/dist/css/bootstrap.min.css');?>">
+<!-- Icon -->
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/fontawesome-free/css/all.min.css');?>">
@@ -60,11 +61,10 @@
 								<tr>
 								<th>No</th>
 								<th>Id Transaksi</th>
-								<!-- <th>Tanggal Transaksi</th> -->
 								<th>Nomor Nasabah</th>
 								<th>Tanggal Peminjaman</th>
 								<th>Keterangan</th>
-								<th>Aksi &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CNasabah/tambahnasabah'); ?>"  role="button" title="New">
+								<th>Status &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPengajuan/tambahP'); ?>"  role="button" title="New">
 									<span class="glyphicon glyphicon-plus"></span> New</a>
 									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
 							</tr>
@@ -80,20 +80,20 @@
 							<tr>
 								<td><?php echo $n; ?></td>
 								<td><?php echo $row->nomor_transaksi; ?></td>
-								<!-- <td><//?php echo $row->tanggal_transaksi; ?></td> -->
 								<td><?php echo $row->nomor_nasabah; ?></td>
 								<td><?php echo $row->tanggal_peminjaman; ?></td>
 								<td><?php echo $row->keterangan; ?></td>
-								<!-- <td><?php //echo $row->jenis_kelamin; ?></td>
-								<td><?php //echo $row->nomor_telpon; ?></td>
-								<td><?php //echo $row->gaji; ?></td>
-						-->
 								
-								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CNasabah/editnasabah/').$row->nomor_nasabah; ?>">
-									<span class="glyphicon glyphicon-edit">Edit</span> </a>
-									<a class="btn btn-danger btn-xs" href="<?php echo base_url('CNasabah/deletnasabah/').$row->nomor_nasabah; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
-									<span class="glyphicon glyphicon-remove"></span> Delete</a>
-									<button data-id="<?php echo $row->nomor_nasabah; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
+								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('#').$row->nomor_transaksi; ?>">
+								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+									<path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+								</svg></a>
+									<a class="btn btn-danger btn-xs" href="<?php echo base_url('#').$row->nomor_transaksi; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+										</svg></a>
+									<button data-id="<?php echo $row->nomor_transaksi; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
 							</tr><?php
 						}
 							?>
@@ -123,12 +123,11 @@
 											<table class="table">
 												<thead>
 													<th>No</th>
-													<th>Id Nasabah</th>
+													<th>No Transaksi</th>
 													<th>Nama Nasabah</th>
-													<th>Type Identitas</th>
-													<th>No Identitas</th>
-													<th>No Rekening</th>
-													<th>Alamat</th>
+													<th>Tanggal Pengajuan</th>
+													<th>Tanggal Pinjam</th>
+													
 
 												
 
@@ -142,12 +141,11 @@
 
 												<tbody>
 												<td><?php echo $n; ?></td>
+												<td><?php echo $row->nomor_transaksi; ?></td>
 												<td><?php echo $row->nomor_nasabah; ?></td>
-												<td><?php echo $row->nama_nasabah; ?></td>
-												<td><?php echo $row->type_identitas; ?></td>
-												<td><?php echo $row->no_identitas; ?></td>
-												<td><?php echo $row->no_rek; ?></td>
-												<td><?php echo $row->alamat; ?></td>
+												<td><?php echo $row->tanggal_transaksi; ?></td>
+												<td><?php echo $row->tanggal_peminjaman; ?></td>
+							
 												
 												</tbody><?php } ?>
 											</table>
@@ -173,7 +171,7 @@
 										<!-- heading modal -->
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title">Data Nasabah</h4>
+											<h4 class="modal-title">Data Pengajuan</h4>
 										</div>
 										<!-- body modal -->
 									<div class="panel panel-info">
@@ -184,32 +182,32 @@
 									<form class="form-horizontal" action="<?php echo base_url('') ?>" method="POST" name="formbook" enctype="multipart/form-data">
 
 									<div class="form-group">
-										<label class="col-sm-2 control-label">Nomor Nasabah</label>
+										<label class="col-sm-2 control-label">Nomor Transaksi</label>
 										<div class="col-sm-2">
 										<input type="text" id="id" value="" readonly>
 										
 									</div></div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label">Nama Nasabah</label>
+										<label class="col-sm-2 control-label">Nomor Nasabah</label>
 										<div class="col-sm-2">
-										<input type="text" id="nama" readonly>
+										<input type="text" id="nomor" readonly>
 									</div></div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label">Tanggal Lahir</label>
+										<label class="col-sm-2 control-label">Tanggal Pengajuan</label>
 										<div class="col-sm-2">
-										<input type="text" id="eml" readonly>
+										<input type="text" id="tgl1" readonly>
 									</div></div>
 
 									<div class="form-group">
-										<label class="col-sm-2 control-label">Tempat Lahir</label>
+										<label class="col-sm-2 control-label">Tanggal Pinjam</label>
 										<div class="col-sm-2">
-										<input type="text" id="tmpt" readonly>
+										<input type="text" id="tgl2" readonly>
 										
 									</div></div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label">type Identitas</label>
+										<label class="col-sm-2 control-label">Keterangan</label>
 										<div class="col-sm-2">
-										<input type="text" id="type" readonly>
+										<input type="text" id="ket" readonly>
 									</div></div>
 									
 									
@@ -277,34 +275,28 @@
 
 
 <script type="text/javascript">
+$(".btn_detail").click(function(){
+			nomor=$(this).attr("data-id");
+			console.log(nomor);
+			$.ajax({url: "<//?php echo base_url('CPengajuan/get_P/') ?>"+nomor, 
+			method :"POST",
+			dataType:"json",
+			success: function(result){
+				$('#id').val(data.nomor_transaksi);
+				$('#nomor').val(data.nomor_nasabah);
+				$('#tgl').val(data.tanggal_transaksi);
+				$('#tgl2').val(data.tanggal_peminjaman);
+				$('#ket').val(data.keterangan);
+			}});
+
+				$('#infoModal').modal("show");
+		
+					});
+
 	
 	$(document).ready(function(){
 
 		$('#tbl_one').DataTable();
-
-		$(document).on('click','.btn_detail',function(){
-			nomor=$(this).attr("data-id");
-			
-				$.ajax({
-						url:"<?php echo base_url('CNasabah/get_nasabah/') ?>"+nomor_nasabah,
-						method:"POST",
-						dataType:"json",
-						success:function(data){
-							$('#id').val(data.nomor_nasabah);
-							$('#nama').val(data.nama_nasabah);
-							$('#eml').val(data.tanggal_lahir);
-							$('#tmpt').val(data.tempat_lahir);
-							$('#type').val(data.type_identitas);
-							
-							//$('#foto').attr('src','<?=base_url()?>/image/'+data.Foto);
-
-							$('#infoModal').modal("show");
-						},
-						error:function(xhr){
-							console.log(xhr);
-						}
-					});
-		})
 
 		
 

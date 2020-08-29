@@ -38,7 +38,7 @@ class ModelData extends CI_Model
 		return $hsl;
 	}
 	function CariNama($nik){
-		$qr="SELECT * from karyawan where nik like '%$nik%'";
+		$qr="SELECT * from nasabah where nik like '%$nik%'";
 		$hsl=$this->db->query($qr);
 		return $hsl;
 	}
@@ -50,14 +50,8 @@ class ModelData extends CI_Model
 	}
 	 function tampil_nama($nik)
     {
-        $query= "SELECT a.*, b.jumlah_transaksi  FROM karyawan a
-		LEFT JOIN 
-		(
-		    SELECT nik, COUNT(*) as jumlah_transaksi FROM cashadvancepermit b
-		    GROUP BY nik
-		    HAVING nik='".$nik."'
-		)b ON a.nik=b.nik
-		WHERE a.nik='".$nik."'";
+        $query= "SELECT * FROM nasabah
+		WHERE nomor_nasabah='".$nik."'";
         $hasil=$this->db->query($query)->row();
         return $hasil;
     }
