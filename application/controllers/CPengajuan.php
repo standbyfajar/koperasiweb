@@ -17,6 +17,39 @@ class CPengajuan extends CI_Controller
 		$data=array('datakr'=>$hasil);
 		$this->load->view('Pengajuan/ListPengajuan',$data);
 	}
+	public function send()
+	{
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+    	$config['smtp_port']    = '465';
+        // $config['smtp_timeout'] = '7';
+        $config['smtp_user']    = 'fajar.karunia05.fk@gmail.com';
+        $config['smtp_pass']    = 'Cakung99';
+        $config['charset']    = 'iso-8859-1';
+        // $config['validation'] = TRUE; // bool whether to validate email or not      
+		$msg = "Hai say!";
+
+		$this->load->library('email',$config);
+		$this->email->set_newline("\r\n");
+
+        // $this->email->initialize($config);
+
+        $this->email->from('fajar.karunia05.fk@gmail.com', 'ADMIN_KOPERASI');
+        $this->email->to('fajar.karunia12.fk@gmail.com'); 
+
+        $this->email->subject('Email Test');
+        $this->email->message($msg);  
+		// $this->email->send();
+		// print_r($config);
+        
+		if ($this->email->send()) {
+		 			echo "send";
+				} else {
+				echo "aul";
+				}
+
+	}
+	
 	function get_P($id){
 		
 		$data = array('nomor_transaksi'=>$id);
@@ -29,7 +62,28 @@ class CPengajuan extends CI_Controller
 		$data= array('datakar'=>$hasil);
 		$this->load->view('Pengajuan/NewPengajuan',$data);
 	}
-
+	function ver($nomor_transaksi){
+		
+		$data = array('status'=>'Allowed');
+		
+		// simpan data ke tabel jurusan
+		$where=array('nomor_transaksi'=>$nomor_transaksi);
+		$this->ModelGue->update('pengajuan',$data,$where);
+		$a=base_url('CPengajuan');
+		$this->send();
+		redirect($a);
+		
+	}
+	function vercancel($nomor_transaksi){
+		
+		$data = array('status'=>'Not Allowed');
+		
+		// simpan data ke tabel jurusan
+		$where=array('nomor_transaksi'=>$nomor_transaksi);
+		$this->ModelGue->update('pengajuan',$data,$where);
+		$a=base_url('CPengajuan');
+		redirect($a);
+	}
 	function saveP(){
 		// buat validasi data
 		$this->form_validation->set_rules('id','No Transaksi','required|trim');

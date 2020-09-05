@@ -84,15 +84,32 @@
 								<td><?php echo $row->tanggal_peminjaman; ?></td>
 								<td><?php echo $row->keterangan; ?></td>
 								
-								<td><a class="btn btn-primary btn-xs btn-xx" role="button" title="Edit" href="#">
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<td>
+								<?php 
+									if ($row->status =='Allowed') { ?>
+									Allowed
+									 
+
+								<?php	}
+								else if ($row->status== 'Not Allowed') {?>
+									Not Allowed
+								
+								<?php }
+								else { ?>
+									<a href="<?= base_url('Cpengajuan/ver/').$row->nomor_transaksi; ?>" class="btn btn-primary btn-xs">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 									<path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
-								</svg></a>
-									<a class="btn btn-danger btn-xs" href="<?php echo base_url('#').$row->nomor_transaksi; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
+									</svg>
+									</a>	
+									<a class="btn btn-danger btn-xs" href="<?php echo base_url('CPengajuan/vercancel/').$row->nomor_transaksi; ?>" role="button" title="Delete" >
 									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-										</svg></a>
+									<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+									</svg></a>
+								<?php }
+								?>
+								
+									
 									<button data-id="<?php echo $row->nomor_transaksi; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
 							</tr><?php
 						}
@@ -242,7 +259,7 @@
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
@@ -275,10 +292,13 @@
 
 
 <script type="text/javascript">
-let btnxx = document.querySelector('.btn-xx');
-btnxx.addEventListener('click', (e) => {
-	e.target.parentNode.parentNode.innerHTML = 'active'
-})
+// let btnxx = document.querySelector('.btn-xx');
+// btnxx.addEventListener('click', (e) => {
+// 	e.target.parentNode.parentNode.innerHTML = 'active'
+// })
+
+
+
 $(".btn_detail").click(function(){
 			nomor=$(this).attr("data-id");
 			console.log(nomor);
