@@ -17,7 +17,7 @@ class CPengajuan extends CI_Controller
 		$data=array('datakr'=>$hasil);
 		$this->load->view('Pengajuan/ListPengajuan',$data);
 	}
-	public function send()
+	public function send($nomor_transaksi)
 	{
 		
         $config['protocol']    = 'smtp';
@@ -29,11 +29,12 @@ class CPengajuan extends CI_Controller
 		$config['charset']    = 'iso-8859-1';
 		
 		//untuk email ke penerima sesuai database
-		$hasil= $this->ModelData->datastat();
+		$hasil= $this->ModelData->datastat($nomor_transaksi);
 		
 		//untuk body email
 		$data = array(
-			'message'=> $this->input->post('message')
+			'message'=> $this->input->post('message'),
+			'namanya'=> $hasil->nama
 				);
 		$body = $this->load->view('Pengajuan/BodyEmail',$data,TRUE); 
 
@@ -48,12 +49,10 @@ class CPengajuan extends CI_Controller
 		$this->email->set_newline("\r\n");
 		$this->email->set_mailtype("html");
         $this->email->from('koperasisahabatmandiri@gmail.com', 'ADMIN_KOPERASI');
-        $this->email->to('fajar.karunia12.fk@gmail.com'); 
+        $this->email->to($hasil->email); 
         $this->email->subject('Email Konfirmasi Pengajuan');
         $this->email->message($body);  
 		// $this->email->send();
-		print_r($config);
-		
         
 		if ($this->email->send()) {
 		 			echo "send";
@@ -69,7 +68,7 @@ class CPengajuan extends CI_Controller
 		$where=array('nomor_transaksi'=>$nomor_transaksi);
 		$this->ModelGue->update('pengajuan',$data,$where);
 		$a=base_url('CPengajuan');
-		$this->send();
+		$this->send($nomor_transaksi);
 		// redirect($a);
 		
 	}

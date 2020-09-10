@@ -77,10 +77,10 @@ class ModelData extends CI_Model
 		$hsl=$this->db->query($qr);
 		return $hsl->result();
 	}
-	function datastat(){
-		$query="select a.*,b.nama,b.email from pengajuan a INNER JOIN admin b ON a.nomor_nasabah=b.nomor_nasabah";
+	function datastat($nomor_transaksi){
+		$query="select a.*,b.nama,b.email from pengajuan a INNER JOIN admin b ON a.nomor_nasabah=b.nomor_nasabah where nomor_transaksi=".$nomor_transaksi;
 		$hsl=$this->db->query($query);
-		return $hsl->result();
+		return $hsl->row();
 	}
 
 	function dataShift(){

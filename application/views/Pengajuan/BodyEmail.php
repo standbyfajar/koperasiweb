@@ -1,6 +1,7 @@
 <html>
 <body>
 Jangan balas email ini...
+Hai <?= $namanya ?>
 <br>
 <p>Persetujuan  Pengajuan Pinjaman Anda sudah di setujui oleh Admin, </p>
 <br>
