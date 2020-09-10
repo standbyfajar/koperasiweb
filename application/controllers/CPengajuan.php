@@ -19,35 +19,69 @@ class CPengajuan extends CI_Controller
 	}
 	public function send()
 	{
+		
         $config['protocol']    = 'smtp';
         $config['smtp_host']    = 'ssl://smtp.gmail.com';
-    	$config['smtp_port']    = '465';
-        // $config['smtp_timeout'] = '7';
-        $config['smtp_user']    = 'fajar.karunia05.fk@gmail.com';
+    	$config['smtp_port']    = '465'; 
+
+        $config['smtp_user']    = 'koperasisahabatmandiri@gmail.com';
         $config['smtp_pass']    = 'Cakung99';
-        $config['charset']    = 'iso-8859-1';
-        // $config['validation'] = TRUE; // bool whether to validate email or not      
-		$msg = "Hai say!";
+		$config['charset']    = 'iso-8859-1';
+		
+		//untuk email ke penerima sesuai database
+		$hasil= $this->ModelData->datastat();
+		
+		//untuk body email
+		$data = array(
+			'message'=> $this->input->post('message')
+				);
+		$body = $this->load->view('Pengajuan/BodyEmail',$data,TRUE); 
 
+		// $msg='Jangan balas email ini...
+		// Hi
+		// Persetujuan  Pengajuan Pinjaman Anda sudah di setujui oleh Admin, 
+		// Silahkan melanjutkan keTransaksi Peminjaman Uang pada App Koperasi,
+		
+		// Terima kasih';
 		$this->load->library('email',$config);
+
 		$this->email->set_newline("\r\n");
-
-        // $this->email->initialize($config);
-
-        $this->email->from('fajar.karunia05.fk@gmail.com', 'ADMIN_KOPERASI');
+		$this->email->set_mailtype("html");
+        $this->email->from('koperasisahabatmandiri@gmail.com', 'ADMIN_KOPERASI');
         $this->email->to('fajar.karunia12.fk@gmail.com'); 
-
-        $this->email->subject('Email Test');
-        $this->email->message($msg);  
+        $this->email->subject('Email Konfirmasi Pengajuan');
+        $this->email->message($body);  
 		// $this->email->send();
-		// print_r($config);
+		print_r($config);
+		
         
 		if ($this->email->send()) {
 		 			echo "send";
 				} else {
 				echo "aul";
 				}
-
+				
+	}
+	function ver($nomor_transaksi){
+		
+		$data = array('status'=>'Allowed');		
+		// simpan data 
+		$where=array('nomor_transaksi'=>$nomor_transaksi);
+		$this->ModelGue->update('pengajuan',$data,$where);
+		$a=base_url('CPengajuan');
+		$this->send();
+		// redirect($a);
+		
+	}
+	function vercancel($nomor_transaksi){
+		
+		$data = array('status'=>'Not Allowed');
+		
+		// simpan data ke tabel jurusan
+		$where=array('nomor_transaksi'=>$nomor_transaksi);
+		$this->ModelGue->update('pengajuan',$data,$where);
+		$a=base_url('CPengajuan');
+		redirect($a);
 	}
 	
 	function get_P($id){
@@ -62,28 +96,7 @@ class CPengajuan extends CI_Controller
 		$data= array('datakar'=>$hasil);
 		$this->load->view('Pengajuan/NewPengajuan',$data);
 	}
-	function ver($nomor_transaksi){
-		
-		$data = array('status'=>'Allowed');
-		
-		// simpan data ke tabel jurusan
-		$where=array('nomor_transaksi'=>$nomor_transaksi);
-		$this->ModelGue->update('pengajuan',$data,$where);
-		$a=base_url('CPengajuan');
-		$this->send();
-		redirect($a);
-		
-	}
-	function vercancel($nomor_transaksi){
-		
-		$data = array('status'=>'Not Allowed');
-		
-		// simpan data ke tabel jurusan
-		$where=array('nomor_transaksi'=>$nomor_transaksi);
-		$this->ModelGue->update('pengajuan',$data,$where);
-		$a=base_url('CPengajuan');
-		redirect($a);
-	}
+
 	function saveP(){
 		// buat validasi data
 		$this->form_validation->set_rules('id','No Transaksi','required|trim');
@@ -91,7 +104,7 @@ class CPengajuan extends CI_Controller
 		
 
 		if ($this->form_validation->run() == FALSE) {
-			// $hasil=$this->modelsaya->semuadata('barang');
+			
 			$hasil=$this->ModelGue->semuadata('pengajuan');
 			$data= array(
 					'datakar'=>$hasil,

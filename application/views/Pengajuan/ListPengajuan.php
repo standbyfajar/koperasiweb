@@ -64,7 +64,8 @@
 								<th>Nomor Nasabah</th>
 								<th>Tanggal Peminjaman</th>
 								<th>Keterangan</th>
-								<th>Status &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPengajuan/tambahP'); ?>"  role="button" title="New">
+								<th>Status</th>
+								<th>Detail </th> &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPengajuan/tambahP'); ?>"  role="button" title="New">
 									<span class="glyphicon glyphicon-plus"></span> New</a>
 									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
 							</tr>
@@ -108,9 +109,9 @@
 									</svg></a>
 								<?php }
 								?>
-								
+								</td>
 									
-									<button data-id="<?php echo $row->nomor_transaksi; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
+								<td><button data-id="<?php echo $row->nomor_transaksi; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
 							</tr><?php
 						}
 							?>

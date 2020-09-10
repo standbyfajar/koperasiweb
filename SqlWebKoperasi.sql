@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.1.10-MariaDB - mariadb.org binary distribution
+-- Server version:               5.6.26 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
--- HeidiSQL Version:             10.3.0.5771
+-- HeidiSQL Version:             11.0.0.5919
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,14 +19,20 @@ USE `koperasi`;
 -- Dumping structure for table koperasi.admin
 CREATE TABLE IF NOT EXISTS `admin` (
   `login_id` varchar(25) NOT NULL,
-  `nomor_nasabah` varchar(25) DEFAULT NULL,
+  `nomor_nasabah` varchar(50) DEFAULT NULL,
   `nama` varchar(25) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `PASSWORD` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`login_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table koperasi.admin: ~1 rows (approximately)
+DELETE FROM `admin`;
+/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
+INSERT INTO `admin` (`login_id`, `nomor_nasabah`, `nama`, `email`, `PASSWORD`) VALUES
+	('adi', '123', 'Adi', 'chef.fajar11@gmail.com', 'admin'),
+	('admin', '124', 'Fajar', 'fajar.karuni12.fk@gmail.com', 'admin');
+/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.nasabah
 CREATE TABLE IF NOT EXISTS `nasabah` (
@@ -50,7 +56,10 @@ CREATE TABLE IF NOT EXISTS `nasabah` (
   PRIMARY KEY (`nomor_nasabah`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table koperasi.nasabah: ~0 rows (approximately)
+DELETE FROM `nasabah`;
+/*!40000 ALTER TABLE `nasabah` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nasabah` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.pelunasan
 CREATE TABLE IF NOT EXISTS `pelunasan` (
@@ -62,7 +71,10 @@ CREATE TABLE IF NOT EXISTS `pelunasan` (
   PRIMARY KEY (`nomor_pelunasan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table koperasi.pelunasan: ~0 rows (approximately)
+DELETE FROM `pelunasan`;
+/*!40000 ALTER TABLE `pelunasan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pelunasan` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.peminjaman
 CREATE TABLE IF NOT EXISTS `peminjaman` (
@@ -78,7 +90,10 @@ CREATE TABLE IF NOT EXISTS `peminjaman` (
   PRIMARY KEY (`nomor_pinjam`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table koperasi.peminjaman: ~0 rows (approximately)
+DELETE FROM `peminjaman`;
+/*!40000 ALTER TABLE `peminjaman` DISABLE KEYS */;
+/*!40000 ALTER TABLE `peminjaman` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.pengajuan
 CREATE TABLE IF NOT EXISTS `pengajuan` (
@@ -91,7 +106,14 @@ CREATE TABLE IF NOT EXISTS `pengajuan` (
   PRIMARY KEY (`nomor_transaksi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table koperasi.pengajuan: ~3 rows (approximately)
+DELETE FROM `pengajuan`;
+/*!40000 ALTER TABLE `pengajuan` DISABLE KEYS */;
+INSERT INTO `pengajuan` (`nomor_transaksi`, `tanggal_transaksi`, `nomor_nasabah`, `tanggal_peminjaman`, `keterangan`, `status`) VALUES
+	('1111', '2020-09-09', '1211', '2020-10-10', 'aaaaa', 'Allowed'),
+	('123', '2020-09-10', '123', '2020-10-16', 'sasfasfaefawfa', 'Allowed'),
+	('2222', '2020-09-10', '124', '2020-10-31', 'fvvvvvvvv', '');
+/*!40000 ALTER TABLE `pengajuan` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.transaksi_tabungan
 CREATE TABLE IF NOT EXISTS `transaksi_tabungan` (
@@ -104,7 +126,10 @@ CREATE TABLE IF NOT EXISTS `transaksi_tabungan` (
   PRIMARY KEY (`nomor_tabungan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Data exporting was unselected.
+-- Dumping data for table koperasi.transaksi_tabungan: ~0 rows (approximately)
+DELETE FROM `transaksi_tabungan`;
+/*!40000 ALTER TABLE `transaksi_tabungan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `transaksi_tabungan` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
