@@ -11,33 +11,18 @@ class ModelData extends CI_Model
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
-    }
+	}
+		public function getUser($id){
+		$query = $this->db->get_where('login',array('id'=>$id));
+		return $query->row_array();
+	   }
+	  
+	   public function activate($data, $id){
+		$this->db->where('login.login_id', $id);
+		return $this->db->update('login', $data);
+	   }
 
-	function combodepart(){
-		$qr="select * from department";
-		$hsl=$this->db->query($qr);
-		return $hsl;
-		
-		// foreach ($hsl->result() as $row) {
-		// 	$data[$row->id_department]=$row->nama_department;
-		// }
-	}
-	function combobank(){
-		$qr="select * from bank";
-		$hsl=$this->db->query($qr);
-		return $hsl;
-		
-		// foreach ($hsl->result() as $row) {
-		// 	$data[$row->id_department]=$row->nama_department;
-		// }
-	}
-
-	function shift(){
-		$qr="select * from workShift";
-		$hsl=$this->db->query($qr);
-		return $hsl;
-	}
-	function CariNama($nik){
+		function CariNama($nik){
 		$qr="SELECT * from nasabah where nik like '%$nik%'";
 		$hsl=$this->db->query($qr);
 		return $hsl;
@@ -70,25 +55,15 @@ class ModelData extends CI_Model
 		$qr="SELECT * From pinjaman where id_karyawan='$id' order by datetime desc";
 		$hsl=$this->db->query($qr);
 		return $hsl;
+	}
 
-	}
-	function datadepart(){
-		$qr="select * from department";
-		$hsl=$this->db->query($qr);
-		return $hsl->result();
-	}
 	function datastat($nomor_transaksi){
-		$query="select a.*,b.nama,b.email from pengajuan a INNER JOIN admin b ON a.nomor_nasabah=b.nomor_nasabah where nomor_transaksi=".$nomor_transaksi;
+		$query="select a.*,b.nama,b.email from pengajuan a INNER JOIN login b ON a.nomor_nasabah=b.nomor_nasabah where nomor_transaksi=".$nomor_transaksi;
 		$hsl=$this->db->query($query);
 		return $hsl->row();
 	}
 
-	function dataShift(){
-		$query="select * from workShift";
-		$hsl=$this->db->query($query);
-		return $hsl->result();
-	}
-
+	
 
 	function get_notrans(){
 		$qr="select nota from inisial";
