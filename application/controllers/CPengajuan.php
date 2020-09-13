@@ -37,13 +37,6 @@ class CPengajuan extends CI_Controller
 			'namanya'=> $hasil->nama
 				);
 		$body = $this->load->view('Pengajuan/BodyEmail',$data,TRUE); 
-
-		// $msg='Jangan balas email ini...
-		// Hi
-		// Persetujuan  Pengajuan Pinjaman Anda sudah di setujui oleh Admin, 
-		// Silahkan melanjutkan keTransaksi Peminjaman Uang pada App Koperasi,
-		
-		// Terima kasih';
 		$this->load->library('email',$config);
 
 		$this->email->set_newline("\r\n");
@@ -61,6 +54,45 @@ class CPengajuan extends CI_Controller
 				}
 				
 	}
+
+	public function sendCancel($nomor_transaksi)
+	{
+		
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+    	$config['smtp_port']    = '465'; 
+
+        $config['smtp_user']    = 'koperasisahabatmandiri@gmail.com';
+        $config['smtp_pass']    = 'Cakung99';
+		$config['charset']    = 'iso-8859-1';
+		
+		//untuk email ke penerima sesuai database
+		$hasil= $this->ModelData->datastat($nomor_transaksi);
+		
+		//untuk body email
+		$data = array(
+			'message'=> $this->input->post('message'),
+			'namanya'=> $hasil->nama
+				);
+		$body = $this->load->view('Pengajuan/BodyEmailNot',$data,TRUE); 
+		$this->load->library('email',$config);
+
+		$this->email->set_newline("\r\n");
+		$this->email->set_mailtype("html");
+        $this->email->from('koperasisahabatmandiri@gmail.com', 'ADMIN_KOPERASI');
+        $this->email->to($hasil->email); 
+        $this->email->subject('Email Pengajuan');
+        $this->email->message($body);  
+		// $this->email->send();
+        
+		if ($this->email->send()) {
+		 			echo "send";
+				} else {
+				echo "aul";
+				}
+				
+	}
+
 	function ver($nomor_transaksi){
 		
 		$data = array('status'=>'Allowed');		
@@ -69,7 +101,7 @@ class CPengajuan extends CI_Controller
 		$this->ModelGue->update('pengajuan',$data,$where);
 		$a=base_url('CPengajuan');
 		$this->send($nomor_transaksi);
-		// redirect($a);
+		redirect($a);
 		
 	}
 	function vercancel($nomor_transaksi){
@@ -80,6 +112,7 @@ class CPengajuan extends CI_Controller
 		$where=array('nomor_transaksi'=>$nomor_transaksi);
 		$this->ModelGue->update('pengajuan',$data,$where);
 		$a=base_url('CPengajuan');
+		$this->sendCancel($nomor_transaksi);
 		redirect($a);
 	}
 	

@@ -1,11 +1,9 @@
 <html>
 <body>
-Jangan balas email ini...
-Hai <?= $namanya ?>
-<br>
-<p>Persetujuan  Pengajuan Pinjaman Anda sudah di setujui oleh Admin, </p>
-<br>
-<p>Silahkan melanjutkan keTransaksi Peminjaman Uang pada App Koperasi</p>
+Jangan balas email ini.
+Hai <?= $namanya ?>.
+<p>Selamat, Pengajuan Pinjaman Anda sudah di setujui oleh Admin. </p>
+<p>Silahkan melanjutkan ke-Transaksi Peminjaman Uang pada App Koperasi di Android</p>
 <br>
 Terima kasih
 </body>
