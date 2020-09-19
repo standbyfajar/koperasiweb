@@ -13,13 +13,13 @@ class ModelData extends CI_Model
         return $query->result();
 	}
 		public function getUser($id){
-		$query = $this->db->get_where('login',array('id'=>$id));
+		$query = $this->db->get_where('login',array('username'=>$id));
 		return $query->row_array();
 	   }
 	  
 	   public function activate($data, $id){
-		$this->db->where('login.login_id', $id);
-		return $this->db->update('login', $data);
+		$where= array('username'=> $id);
+		 $this->db->update('login',$data,$where);
 	   }
 
 		function CariNama($nik){

@@ -1,5 +1,7 @@
 <html>
 <head>
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css">
     <style>
         *, *:before, *:after {
 	 box-sizing: border-box;
@@ -165,18 +167,19 @@
         <?php echo $pesan; ?>
     </div>
     <?php       } ?>
+
             <div class="form">
             
             <ul class="tab-group">
-                <li class="tab active"><a href="#signup">Sign Up</a></li>
-                <li class="tab"><a href="#login">Log In</a></li>
+                <li class="tab active"><a id="btn_panel_signup" href="#signup">Sign Up</a></li>
+                <li class="tab"><a id="btn_panel_login" href="#login">Log In</a></li>
             </ul>
             
             <div class="tab-content">
                 <div id="signup">   
                 <h1>Sign Up for Free</h1>
                 
-                <form action="<?php echo base_url('CLogin/save')?>" method="post">
+                <form action="<?php echo base_url('cLogin/save')?>" method="post">
                 
                 <!-- <div class="field-wrap">
                   
@@ -226,10 +229,15 @@
 
                 </div>
                 
-                <div id="login">   
+                <div id="login">  
+				<?php if($this->session->flashdata('msg_login')){ ?>
+					<div class="alert alert-danger" role="alert">
+						<?= $this->session->flashdata('msg_login'); ?>
+					</div>
+				<?php } ?> 
                 <h1>Welcome Back!</h1>
                 
-                <form action="<?php echo base_url('CLogin/login') ?>" method="post">
+                <form id="frm_login" action="<?php echo base_url('cLogin/login') ?>" method="post">
                 
                     <div class="field-wrap">
                     <label>
@@ -265,6 +273,8 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
     </body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script type="text/javascript">
     $('.form').find('input, textarea').on('keyup blur focus', function (e) {
@@ -310,5 +320,45 @@ $('.tab a').on('click', function (e) {
   $(target).fadeIn(600);
   
 });
+
+$("form#frm_login").submit(function(ev){
+	ev.preventDefault();
+	var this_data = $(this).serialize();
+	$.ajax({ 
+		type: 'POST', 
+		url: 'CLogin/login', 
+		data: this_data, 
+		dataType: 'json',
+		success: function (res_data) {
+			if(res_data.res == false){
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Something went wrong!, Username dan Password salah',
+				
+				}).then((result) => {
+					window.location.href=res_data.url;
+				})
+				// window.location.href=res_data.url;
+			}else{
+				Swal.fire({
+					icon: 'success',
+					title: 'Horey..',
+					text: 'Login Berhasil',
+				
+				}).then((result) => {
+					if (result.isConfirmed) {
+						window.location.href=res_data.url;
+					}
+				})
+			}
+		}
+	});
+});
+
+<?php if($this->session->flashdata('msg_login')){ ?>
+	$("#btn_panel_login").click();
+<?php } ?> 
+
     </script>
 </html>

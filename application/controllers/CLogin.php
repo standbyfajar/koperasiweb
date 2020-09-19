@@ -49,6 +49,9 @@ class CLogin extends CI_Controller
 				$data= array('username'=>$user,'pesan'=>'username tidak boleh Sama');
 				$this->load->view('Login/Login',$data);
 			}else{
+				$set = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+				$code = trim(substr(str_shuffle($set), 0, 12));
+				
 				$data = array(
                 // 'login_id'=>$kod,
 				'username'=>$user,
@@ -56,14 +59,14 @@ class CLogin extends CI_Controller
 				'namadepan'=>$nama1,
 				'namabelakang'=>$nama2,
 				'email'=>$email,
-				'password'=>md5($pass));
-                
+				'password'=>md5($pass),
+                'code'=>$code);
 				// simpan data ke tabel 
 				$this->ModelGue->insert('login',$data);
                                     //generate simple random code
-                $set = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                $code = substr(str_shuffle($set), 0, 12);
-
+              
+				// echo $code;
+				// return;
                     //set up email
                 $config = array(
                     'protocol' => 'smtp',
@@ -126,96 +129,83 @@ class CLogin extends CI_Controller
       
         //if code matches
         if($user['code'] == $code){
+			// echo 'sama';
          //update user active status
-         $data['active'] = true;
+         $data['active'] ='true';
          $query = $this->ModelData->activate($data, $id);
       
          if($query){
-          $this->session->set_flashdata('message', 'User activated successfully');
+          $this->session->set_flashdata('pesan', 'User activated successfully');
          }
          else{
-          $this->session->set_flashdata('message', 'Something went wrong in activating account');
+          $this->session->set_flashdata('pesan', 'Something went wrong in activating account');
          }
         }
         else{
-         $this->session->set_flashdata('message', 'Cannot activate account. Code didnt match');
+			// echo 'ga sama';
+        $this->session->set_flashdata('pesan', 'Cannot activate account. Code didnt match');
         }
-        $a=base_url('CLogin');
+        // $a=base_url('CLogin');
               
-        redirect($a);
+        // redirect($a);
     }
     
-    // function login(){
-	// 	$this->form_validation->set_rules('email','email','required|trim');
-	// 	$this->form_validation->set_rules('pass','password','required|trim');
-		
-	// 	// $login = false;
-	// 	if ($this->form_validation->run()==FALSE) {
-	// 	 $dt = array('pesan' => validation_errors());
-	// 		//$dt['pesan']= validation_error();
-	// 	 	$login = 'kosong';
-	// 	$this->load->view('index',$dt);
-	// 	}else
-	// 	{
-	// 		$login = 'gagal';
-	// 		$userid=$this->input->post('email');
-	// 		$pass=$this->input->post('pass');
-	// 		$where=array('email'=>$userid);
-	// 		$dataadmn=$this->ModelGue->GetWhere('login',$where); 
+    function login(){
+		$this->form_validation->set_rules('email','email','required|trim');
+		$this->form_validation->set_rules('pass','password','required|trim');
+		 
+		if ($this->form_validation->run()==FALSE) {
+			$dt = array('pesan' => validation_errors());
+			// $this->load->view('Template',$dt);
+			exit;
+		}
+		else { 
+			$userid=$this->input->post('email');
+			$pass=$this->input->post('pass');
+			$where=array('email'=>$userid);
+			$dataadmn=$this->ModelGue->GetWhere('login',$where); 
 			
-	// 		$data_account=array('email'=>$userid,'PASSWORD'=>md5($pass));
-	// 		$dt_result_ceklogin = $this->ModelGue->cek_login('login',$data_account);
-
-	// 		// echo $dt_result_ceklogin; exit();
-	// 		// ```````````````````````````````````````````````````````````````````
+			$data_account=array('email'=>$userid,'PASSWORD'=>md5($pass));
+			$dt_result_ceklogin = $this->ModelGue->cek_login('login',$data_account);
 			
-	// 		// if($dt_result_ceklogin==1 && $dataadmn->hak_akses==1){
-				
-	// 		// 	$nama=$dataadmn->nama_karyawan;
-	// 		// 	$this->session->set_userdata('userlogin',array(
-	// 		// 		'nama'=>$nama,
-	// 		// 		"level"=>$dataadmn->hak_akses,
-	// 		// 	));
-	// 		// 	$data=array('dt_hrd'=>$dt_result_ceklogin);
-	// 		// 	$login = 'berhasil';
-				
-	// 		// }
-	// 		// if($dt_result_ceklogin==1 && $dataadmn->hak_akses==2){
+			if($dt_result_ceklogin==1){
+				$data_result = [];
+				$nama=$dataadmn->username;
+				$data_result['hak_akses'] = $dataadmn->hak_akses;
+				$data_result['namadepan'] = $nama;
+				$cek=array('pesan'=>'Selamat Datang');
 
-	// 		// 	$cek=array('pesan'=>'Selamat Datang'.$dt_result_ceklogin);
-	// 		// 	$nama=$dataadmn->nama_karyawan;
-	// 		// 	$this->session->set_userdata('userlogin',array(
-	// 		// 		'nama'=>$nama,
-	// 		// 		"level"=>$dataadmn->hak_akses,
-	// 		// 	));
-	// 		// 	$data=array('dt_uang'=>$dt_result_ceklogin);
-	// 		// 	$login = 'berhasil';
-	// 		// }
-	// 		// if($dt_result_ceklogin==1 && $dataadmn->hak_akses==3){
-				
-	// 		// 	$cek=array('pesan'=>'Selamat Datang'.$dt_result_ceklogin);
-	// 		// 	$nama=$dataadmn->nama_karyawan;
-	// 		// 	$this->session->set_userdata('userlogin',array(
-	// 		// 		'nama'=>$nama,
-	// 		// 		"level"=>$dataadmn->hak_akses,
-	// 		// 	));
-	// 		// 	$data=array('owner'=>$dt_result_ceklogin);
-	// 		// 	$login = 'berhasil';
-	// 		// }
-
-	// 		$cek=array('pesan'=>'username dan password salah');
-
-	// 		echo json_encode($cek);
-			
-	// 		// $this->load->view('Index',$cek);
-	// 	}
-    // }
+				$this->session->set_userdata('userlogin', $data_result);
+				$data=array('admin'=>$dt_result_ceklogin);
+				$this->session->set_flashdata('msg_login',$cek['pesan'].' '.$nama);
+				$x=base_url('');
+				echo json_encode(array(
+					'lvl' => $dataadmn,
+					'url' => $x,
+					'msg' => $cek['pesan'].' '.$nama,
+					'res' => true
+				));
+				// redirect($x);
+			}else{
+				$cek=array('pesan'=>'Username dan Password salah');
+				$this->session->set_flashdata('msg_login',$cek['pesan']);
+				$x=base_url('clogin');
+				echo json_encode(array(
+					'lvl' => $data_result['hak_akses'],
+					'url' => $x,
+					'msg' => $cek['pesan'],
+					'res' => false
+				));
+				// redirect($x);
+			}
+			// echo json_encode($cek);
+			// $this->load->view('Template',$cek);
+		}
+    }
     function logout(){
 		$this->session->sess_destroy();
-		// redirect(base_url('Signin'));
-			// $sesi=array('user_name'=>'','useraktif'=>'');
 			$this->session->unset_userdata('userlogin');
-			$x=base_url('Login');
+			$x=base_url('CLogin');
 			redirect($x);
 	}
 

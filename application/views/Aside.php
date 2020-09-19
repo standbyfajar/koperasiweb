@@ -51,12 +51,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Admin Login</p>
-                </a>
-              </li>
+
+              <?php if(!empty($this->session->userdata('userlogin')['hak_akses'])): ?>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Admin Login</p>
+                  </a>
+                </li>
+              <?php endif; ?>
+
               <li class="nav-item">
                 <a href="<?php echo base_url('CNasabah') ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -90,10 +94,10 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="<?php echo base_url('Clogin/logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Widgets
+                Logout
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
@@ -470,7 +474,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
+              <p>Log Out</p>
             </a>
           </li>
           <li class="nav-item has-treeview">
