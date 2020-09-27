@@ -13,28 +13,37 @@
 
 
 -- Dumping database structure for koperasi
+DROP DATABASE IF EXISTS `koperasi`;
 CREATE DATABASE IF NOT EXISTS `koperasi` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `koperasi`;
 
--- Dumping structure for table koperasi.admin
-CREATE TABLE IF NOT EXISTS `admin` (
-  `login_id` varchar(25) NOT NULL,
+-- Dumping structure for table koperasi.login
+DROP TABLE IF EXISTS `login`;
+CREATE TABLE IF NOT EXISTS `login` (
+  `login_id` int(25) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
   `nomor_nasabah` varchar(50) DEFAULT NULL,
-  `nama` varchar(25) DEFAULT NULL,
+  `namadepan` varchar(25) DEFAULT NULL,
+  `namabelakang` varchar(25) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `PASSWORD` varchar(100) DEFAULT NULL,
+  `active` varchar(100) DEFAULT NULL,
+  `hak_akses` varchar(100) DEFAULT NULL,
+  `code` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`login_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table koperasi.admin: ~1 rows (approximately)
-DELETE FROM `admin`;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` (`login_id`, `nomor_nasabah`, `nama`, `email`, `PASSWORD`) VALUES
-	('adi', '123', 'Adi', 'chef.fajar11@gmail.com', 'admin'),
-	('admin', '124', 'Fajar', 'fajar.karuni12.fk@gmail.com', 'admin');
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+-- Dumping data for table koperasi.login: ~3 rows (approximately)
+DELETE FROM `login`;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+INSERT INTO `login` (`login_id`, `username`, `nomor_nasabah`, `namadepan`, `namabelakang`, `email`, `PASSWORD`, `active`, `hak_akses`, `code`) VALUES
+	(1, 'adi', '123', 'Adi', 'saputra', 'chef.fajar11@gmail.com', 'admin', '', NULL, NULL),
+	(2, 'fajar', '124', 'Fajar', 'karunia', 'fajar.karunia12.fk@gmail.com', '4297f44b13955235245b2497399d7a93', 'true', '1', NULL),
+	(3, 'safii', '1211', 'Safi`i', 'muhammad', 'fajar.karunia05.fk@gmail.com', 'admin', NULL, NULL, NULL);
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.nasabah
+DROP TABLE IF EXISTS `nasabah`;
 CREATE TABLE IF NOT EXISTS `nasabah` (
   `nomor_nasabah` varchar(25) NOT NULL,
   `nama_nasabah` varchar(50) DEFAULT NULL,
@@ -56,12 +65,16 @@ CREATE TABLE IF NOT EXISTS `nasabah` (
   PRIMARY KEY (`nomor_nasabah`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table koperasi.nasabah: ~0 rows (approximately)
+-- Dumping data for table koperasi.nasabah: ~2 rows (approximately)
 DELETE FROM `nasabah`;
 /*!40000 ALTER TABLE `nasabah` DISABLE KEYS */;
+INSERT INTO `nasabah` (`nomor_nasabah`, `nama_nasabah`, `tempat_lahir`, `tanggal_lahir`, `usia`, `jenis_kelamin`, `type_identitas`, `no_identitas`, `alamat`, `Bank`, `no_rek`, `telepon`, `Gaji`, `total_tabungan`, `Foto`, `Foto_Identitas`, `status`) VALUES
+	('1', '2', '3', '2020-09-20 00:00:00', 0, 'Laki-Laki', 'KTP', 'a', 'f', 'f', 3, '1', 2, NULL, NULL, NULL, NULL),
+	('124', 'Adi', 'jkt', '2020-09-20 11:39:14', 24, 'Laki-Laki', 'KTP', '999', 'p', 'bd', 99, '999', 5000000, 1000000, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `nasabah` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.pelunasan
+DROP TABLE IF EXISTS `pelunasan`;
 CREATE TABLE IF NOT EXISTS `pelunasan` (
   `nomor_pelunasan` varchar(25) NOT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
@@ -77,6 +90,7 @@ DELETE FROM `pelunasan`;
 /*!40000 ALTER TABLE `pelunasan` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.peminjaman
+DROP TABLE IF EXISTS `peminjaman`;
 CREATE TABLE IF NOT EXISTS `peminjaman` (
   `nomor_pengajuan` varchar(25) NOT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
@@ -84,18 +98,24 @@ CREATE TABLE IF NOT EXISTS `peminjaman` (
   `nomor_nasabah` varchar(25) DEFAULT NULL,
   `nominal` decimal(10,0) DEFAULT NULL,
   `cicilan` decimal(10,0) DEFAULT NULL,
-  `bunga` int(11) DEFAULT NULL,
+  `bunga` decimal(10,4) DEFAULT NULL,
   `kredit_bulan` decimal(10,0) DEFAULT NULL,
   `keterangan` varchar(50) DEFAULT NULL,
+  `admin` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`nomor_pinjam`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table koperasi.peminjaman: ~0 rows (approximately)
+-- Dumping data for table koperasi.peminjaman: ~3 rows (approximately)
 DELETE FROM `peminjaman`;
 /*!40000 ALTER TABLE `peminjaman` DISABLE KEYS */;
+INSERT INTO `peminjaman` (`nomor_pengajuan`, `tanggal_transaksi`, `nomor_pinjam`, `nomor_nasabah`, `nominal`, `cicilan`, `bunga`, `kredit_bulan`, `keterangan`, `admin`) VALUES
+	('a', '0000-00-00', '', '', 1, 0, 0.0000, 0, '', NULL),
+	('12', '2020-09-20', '1223', '124', 50000000, 5000000, 0.2000, 1200000, 'a', 'fajar'),
+	('14', '0000-00-00', '14', '1254', 15000000, 0, 0.0000, 0, '', NULL);
 /*!40000 ALTER TABLE `peminjaman` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.pengajuan
+DROP TABLE IF EXISTS `pengajuan`;
 CREATE TABLE IF NOT EXISTS `pengajuan` (
   `nomor_transaksi` varchar(25) NOT NULL,
   `tanggal_transaksi` date DEFAULT NULL,
@@ -111,11 +131,12 @@ DELETE FROM `pengajuan`;
 /*!40000 ALTER TABLE `pengajuan` DISABLE KEYS */;
 INSERT INTO `pengajuan` (`nomor_transaksi`, `tanggal_transaksi`, `nomor_nasabah`, `tanggal_peminjaman`, `keterangan`, `status`) VALUES
 	('1111', '2020-09-09', '1211', '2020-10-10', 'aaaaa', 'Allowed'),
-	('123', '2020-09-10', '123', '2020-10-16', 'sasfasfaefawfa', 'Allowed'),
-	('2222', '2020-09-10', '124', '2020-10-31', 'fvvvvvvvv', '');
+	('123', '2020-09-10', '123', '2020-10-16', 'sasfasfaefawfa', 'Not Allowed'),
+	('2222', '2020-09-10', '124', '2020-10-31', 'fvvvvvvvv', 'Not Allowed');
 /*!40000 ALTER TABLE `pengajuan` ENABLE KEYS */;
 
 -- Dumping structure for table koperasi.transaksi_tabungan
+DROP TABLE IF EXISTS `transaksi_tabungan`;
 CREATE TABLE IF NOT EXISTS `transaksi_tabungan` (
   `nomor_tabungan` varchar(10) NOT NULL,
   `nomor_nasabah` varchar(25) DEFAULT NULL,
