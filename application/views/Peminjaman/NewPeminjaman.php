@@ -60,7 +60,7 @@
                                                         <?php 
                                                                             } ?>
                                             <!-- awal pembuatan form -->
-                                    <form class="form-horizontal" action="<?php echo base_url('CPengajuan/saveP') ?>" method="POST" name="formbook" enctype="multipart/form-data">
+                                    <form class="form-horizontal" action="<?php echo base_url('CPeminjaman/saveP') ?>" method="POST" name="formbook" enctype="multipart/form-data">
                                       <div class="row">
                                           <div class="col-sm">
                                             <div class="form-group">

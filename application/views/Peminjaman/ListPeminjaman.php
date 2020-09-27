@@ -13,8 +13,12 @@
 
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/dist/css/bootstrap.min.css');?>">
-<!-- Icon -->
+  <link rel="stylesheet" href="<?php echo base_url();?>assets/AdminLTE/plugins/sweetalert2/sweetalert2.min.css">
 
+  
+<!-- Icon -->
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/fontawesome-free/css/all.min.css');?>">
   <!-- Ionicons -->
@@ -60,12 +64,12 @@
 							<thead>
 								<tr>
 								<th>No</th>
-								<th>No Pinjam</th>
+								<th>No pengajuan</th>
 								<th>Tanggal Transaksi</th>
+								<th>nomor Transaksi</th>
 								<th>No Nasabah</th>
-								<th>Nominal</th>
 								<th>Keterangan</th>
-								<th>Status &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPeminjaman/tambahP'); ?>"  role="button" title="New">
+								<th>Action &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CPeminjaman/tambahP'); ?>"  role="button" title="New">
 									<span class="glyphicon glyphicon-plus"></span> New</a>
 									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
 							</tr>
@@ -75,27 +79,26 @@
 						<?php 
 						// $n=0;
 						$n=0;
-						foreach ($datakr as $row) {
+						foreach ($datakar as $row) {
 							$n++;
 							?>
 							<tr>
 								<td><?php echo $n; ?></td>
-								<td><?php echo $row->nomor_pinjam; ?></td>
+								<td><?php echo $row->nomor_pengajuan; ?></td>
 								<td><?php echo $row->tanggal_transaksi; ?></td>
+								<td><?php echo $row->nomor_pinjam; ?></td>
 								<td><?php echo $row->nomor_nasabah; ?></td>
-								<td><?php echo $row->nominal; ?></td>
 								<td><?php echo $row->keterangan; ?></td>
 								
-								<td><a class="btn btn-primary btn-xs btn-xx" role="button" title="Edit" href="#">
-								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-									<path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
-								</svg></a>
-									<a class="btn btn-danger btn-xs" href="<?php echo base_url('#').$row->nomor_transaksi; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-										</svg></a>
-									<button data-id="<?php echo $row->nomor_transaksi; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
+								<td >
+								<div class="btn-group">
+								<a href="<?php echo base_url('CPeminjaman/delete_detil/').$row->nomor_pengajuan ?>" class="btn btn-danger btn-xs" role="button" 
+								onclick="return Confirm()">
+								<i class="icon-trash"></i>hapus data</a>
+								
+								<a style="width: 110px;" href="<?php echo base_url('CPeminjaman/Cetak_form/').$row->nomor_pengajuan ?>" target="_blank"  class="btn btn-success btn-xs" >
+								<i class="icon-print"></i> Cetak</a>
+								</td></div>
 							</tr><?php
 						}
 							?>
@@ -137,7 +140,7 @@
 												<?php 
 										// $n=0;
 										$n=0;
-										foreach ($datakr as $row) {
+										foreach ($datakar as $row) {
 											$n++;
 											?>
 
@@ -242,6 +245,9 @@
 
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
+
+<script src="<?php echo base_url('assets/AdminLTE/plugins/sweetalert2/sweetalert2.all.min.js')?>"></script>
+<script src="<?php echo base_url('assets/AdminLTE/plugins/sweetalert2/sweetalert2.min.js')?>"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
@@ -277,10 +283,10 @@
 
 
 <script type="text/javascript">
-let btnxx = document.querySelector('.btn-xx');
-btnxx.addEventListener('click', (e) => {
-	e.target.parentNode.parentNode.innerHTML = 'active'
-})
+// let btnxx = document.querySelector('.btn-xx');
+// btnxx.addEventListener('click', (e) => {
+// 	e.target.parentNode.parentNode.innerHTML = 'active'
+// })
 $(".btn_detail").click(function(){
 			nomor=$(this).attr("data-id");
 			console.log(nomor);
@@ -307,6 +313,26 @@ $(".btn_detail").click(function(){
 		
 
 	});
+
+	function Confirm() {
+		Swal.fire({
+		title: 'Are you sure?',
+		text: "You won't be able to revert this!",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire(
+				'Deleted!',
+				'Your file has been deleted.',
+				'success'
+				)
+			}
+		})
+	}
 </script>
 
 

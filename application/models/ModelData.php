@@ -121,7 +121,8 @@ class ModelData extends CI_Model
 	   	$kasus=$this->db->query($myquery);
 	}
 	function cetak_formPP($nota){
-		$qr="SELECT No_PP,tanggal,cashadvancepermit.nik,karyawan.nama_karyawan,deskripsi,admin from cashadvancepermit inner join karyawan on karyawan.nik= cashadvancepermit.nik where No_PP='$nota'";
+		$qr="SELECT nomor_pengajuan,tanggal_transaksi,peminjaman.nomor_nasabah,nasabah.nama_nasabah,admin,keterangan from peminjaman 
+		inner join nasabah on peminjaman.nomor_nasabah= nasabah.nomor_nasabah where nomor_pinjam='$nota'";
 		$hsl=$this->db->query($qr);
 		return $hsl->row();
 	}

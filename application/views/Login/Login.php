@@ -2,6 +2,8 @@
 <head>
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo base_url();?>assets/AdminLTE/plugins/sweetalert2/sweetalert2.min.css">
+
     <style>
         *, *:before, *:after {
 	 box-sizing: border-box;
@@ -272,9 +274,14 @@
 
 <!-- jQuery UI 1.11.4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
-    </body>
+<!-- Sweetalert -->
+<script src="<?php echo base_url('assets/AdminLTE/plugins/sweetalert2/sweetalert2.all.min.js')?>"></script>
+<script src="<?php echo base_url('assets/AdminLTE/plugins/sweetalert2/sweetalert2.min.js')?>"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    </body>
+<!-- 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
 
     <script type="text/javascript">
     $('.form').find('input, textarea').on('keyup blur focus', function (e) {
@@ -347,9 +354,7 @@ $("form#frm_login").submit(function(ev){
 					text: 'Login Berhasil',
 				
 				}).then((result) => {
-					if (result.isConfirmed) {
-						window.location.href=res_data.url;
-					}
+					window.location.href=res_data.url;
 				})
 			}
 		}

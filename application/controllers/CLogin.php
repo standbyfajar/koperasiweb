@@ -28,7 +28,8 @@ class CLogin extends CI_Controller
 			$hasil=$this->ModelGue->semuadata('login');
 			$data= array(
 					'data'=>$hasil,
-					'pesan'=>validation_errors()
+					'pesan'=>validation_errors(),
+					'pesan1'=>validation_errors()
 				); 
 				
 			$this->load->view('Login/Login',$data);
@@ -42,11 +43,13 @@ class CLogin extends CI_Controller
             $email=$this->input->post('email');
             $pass= $this->input->post('pass');
 			// validasi data double
-			$x = array('username' =>$user  );
+			$x = array('username' =>$user,
+						'email' =>$email  );
 			$cari=$this->ModelGue->GetWhere('login',$x);
 
 			if(count($cari)>0){
-				$data= array('username'=>$user,'pesan'=>'username tidak boleh Sama');
+				$data= array('username'=>$user,'pesan'=>'username tidak boleh Sama',
+							'email'=> $email,'pesan1'=>'email tidak boleh Sama');
 				$this->load->view('Login/Login',$data);
 			}else{
 				$set = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -178,9 +181,8 @@ class CLogin extends CI_Controller
 				$this->session->set_userdata('userlogin', $data_result);
 				$data=array('admin'=>$dt_result_ceklogin);
 				$this->session->set_flashdata('msg_login',$cek['pesan'].' '.$nama);
-				$x=base_url('');
+				$x=base_url('Welcome');
 				echo json_encode(array(
-					'lvl' => $dataadmn,
 					'url' => $x,
 					'msg' => $cek['pesan'].' '.$nama,
 					'res' => true
@@ -189,9 +191,8 @@ class CLogin extends CI_Controller
 			}else{
 				$cek=array('pesan'=>'Username dan Password salah');
 				$this->session->set_flashdata('msg_login',$cek['pesan']);
-				$x=base_url('clogin');
+				$x=base_url('CLogin');
 				echo json_encode(array(
-					'lvl' => $data_result['hak_akses'],
 					'url' => $x,
 					'msg' => $cek['pesan'],
 					'res' => false
