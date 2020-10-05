@@ -18,11 +18,21 @@ class CPeminjaman extends CI_Controller
 		$hasil=$this->ModelGue->semuadata('peminjaman');
 		$data=array('datakar'=>$hasil);
 		$this->load->view('Peminjaman/ListPeminjaman',$data);
-    }
+	}
+	function autocomp(){
+		
+		 // POST data
+		 $postData = $this->input->post('term');
+
+		 // Get data
+		 $data = $this->ModelData->get_auto($postData);
+	 
+		 echo json_encode($data);
+	}
+
     function get_P($id){
 		
-		$data = array('nomor_transaksi'=>$id);
-		$hasil = $this->ModelGue->GetWhere('peminjaman',$data); 
+		$hasil = $this->ModelData->datastat($id); 
 
 		echo json_encode($hasil);
 	}

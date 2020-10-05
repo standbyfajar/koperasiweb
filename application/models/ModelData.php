@@ -12,6 +12,24 @@ class ModelData extends CI_Model
         $query = $this->db->get();
         return $query->result();
 	}
+	function get_auto($postData){
+		$response = array();
+
+		if(isset($postData) ){
+			// Select record
+			$this->db->select('*');
+			$this->db->where("nomor_transaksi like '%".$postData."%' ");
+
+			$records = $this->db->get('pengajuan')->result();
+
+			foreach($records as $row ){
+				$response[] = array("value"=>$row->nomor_transaksi,"label"=>$row->nomor_transaksi);
+			}
+
+		}
+
+		return $response;
+	}
 		public function getUser($id){
 		$query = $this->db->get_where('login',array('username'=>$id));
 		return $query->row_array();
@@ -58,7 +76,7 @@ class ModelData extends CI_Model
 	}
 
 	function datastat($nomor_transaksi){
-		$query="select a.*,b.nama,b.email from pengajuan a INNER JOIN login b ON a.nomor_nasabah=b.nomor_nasabah where nomor_transaksi=".$nomor_transaksi;
+		$query="select a.*,b.nama_nasabah,b.total_tabungan from pengajuan a INNER JOIN nasabah b ON a.nomor_nasabah=b.nomor_nasabah where nomor_transaksi=".$nomor_transaksi;
 		$hsl=$this->db->query($query);
 		return $hsl->row();
 	}

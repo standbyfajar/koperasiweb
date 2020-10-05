@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/summernote/summernote-bs4.css');?>">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+  <link rel="stylesheet" href="<?php echo base_url('assets/jquery/jquery-ui.css');?>">
 </head>
 
 <!-- Menu atas  -->
@@ -66,13 +66,13 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">No Pengajuan</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="no_pengajuan" >
+                                                <input type="text" name="no_pengajuan" id="no_pengajuan">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-sm-5 control-label">Tanggal Transaksi</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tgl" >
+                                                <input type="date" name="tgl" id="tgl" value ="<?php echo date('Y-m-d') ?>" readonly>
                                                 </div>
                                             </div>
                                             
@@ -85,13 +85,13 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">No Nasabah</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="nasa" id="nasa"/>                                                    
+                                                    <input type="text" name="nasa" id="nasa" readonly/>                                                    
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">Total Tabungan</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="tot_tabungan" id="tot_tabungan"/>                                                    
+                                                    <input type="text" name="tot_tabungan" id="tot_tabungan" readonly/>                                                    
                                                     </div>
                                                 </div>
                                             <div class="form-group">
@@ -112,7 +112,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label">Cicialn</label>
+                                                    <label class="col-sm-3 control-label">Cicilan</label>
                                                     <div class="col-sm-2">
                                                     <input type="text" name="cicil" id="cicil"/>                                                    
                                                     </div>
@@ -120,13 +120,13 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Bunga %</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="bunga" id="bunga"/>                                                    
+                                                    <input type="text" name="bunga" id="bunga" readonly/>                                                    
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Cicilan/bulan</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="cicil_bulan" id="cicil_bulan"/>                                                    
+                                                    <input type="text" name="cicil_bulan" id="cicil_bulan" readonly/>                                                    
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -166,7 +166,7 @@
       <?php $this->load->view('Footer'); ?>		  
 
 </body>
-
+</html>
 
 <!-- jQuery -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery/jquery.min.js')?>"></script>
@@ -174,7 +174,7 @@
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
@@ -202,94 +202,144 @@
 <script src="<?php echo base_url('assets/AdminLTE/dist/js/pages/dashboard.js')?>"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url('assets/AdminLTE/dist/js/demo.js')?>"></script>
+<script src="<?php echo base_url('assets/jquery/jquery-ui.js')?>"></script>
     
-</html>
+
 <script type="text/javascript">
-$("#nomor").keyup(() => {
-    console.log("a")
-    $("#nomor").autocomplete({
-        // width:150;
-        source: ['aa', 'dd']
-        $.ajax({
-            url:"<?php echo base_url('CPengajuan/ckaryawan'); ?>",
-            type:"GET",
-            data:"nomor="+$(this).val(),
-            dataType:"json",
-            success: function(jar){
-                console.log('a');
+$("#nominal").keyup(function(){
+    var nominal = $(this).val();
+    var jasa    = 0;
+    if (nominal==5000) {
+        jasa=0.1;
+    }
+    else if (nominal >5000 && nominal <10000){
+        jasa=0.2;  
+    }
+    else{
+         jasa= 0.3;
+    }
+    $("#bunga").val(jasa);
+})
+
+$("#cicil").keyup(function(){
+    var cicil = $(this).val();
+    var nominal = $("#nominal").val();
+    var bunga = $("#bunga").val();
+    var cicil_bln = 0;
+    cicil_bln = (nominal/cicil) + bunga;
+    $("#cicil_bulan").val(Math.round(parseInt((cicil_bln))));
+
+})
+
+// $("#no_pengajuan").autocomplete({
+//     source: <?php echo base_url('CPeminjaman/autocomp/?'); ?>
+// });
+
+$( "#no_pengajuan" ).autocomplete({
+        source: function( request, response ) {
+          // Fetch data
+          $.ajax({
+            url: "<?=base_url()?>CPeminjaman/autocomp",
+            type: 'post',
+            dataType: "json",
+            data: {
+              term: request.term
+            },
+            success: function( data ) {
+                // console.log(data);
+                response( data );
+            }
+          });
+        },
+        select: function (event, ui) {
+          // Set selection
+        //   $('#no_pengajuan').val(ui.item.label); // display the selected text
+          $('#no_pengajuan').val(ui.item.value); // save selected id to input
+          $.ajax({
+              url: "<?php echo base_url(''); ?>" + 'CPeminjaman/get_P/' + ui.item.value,
+              type: "post",
+              dataType: "json",
+              success:function(data){
+                  console.log(data);
+                  $("#nasa").val(data.nomor_nasabah);
+                  $("#tot_tabungan").val(data.total_tabungan);
+              }
+          })
+          return false;
+
+        }
+      });
+
+
+
+
+// $("#nomor").keyup(() => {
+//     console.log("a")
+//     $("#nomor").autocomplete({
+//         // width:150;
+//         source: ['aa', 'dd']
+//         $.ajax({
+//             url:"<?php echo base_url('CPengajuan/ckaryawan'); ?>",
+//             type:"GET",
+//             data:"nomor="+$(this).val(),
+//             dataType:"json",
+//             success: function(jar){
+//                 console.log('a');
                 
             
-            },
-            error:function(xhr){
-                console.log(xhr);
-            }
-        });
-    })
-})
-            $('#tgllahir').on('change', function() {
-                var dob = new Date(this.value);
-                var today = new Date();
-                var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
-                $('#usia').val(age);
-            });
-                    function bacaGambar(input) {
-                    if (input.files && input.files[0]) {
-                        var reader = new FileReader();
+//             },
+//             error:function(xhr){
+//                 console.log(xhr);
+//             }
+//         });
+//     })
+// })
+//             $('#tgllahir').on('change', function() {
+//                 var dob = new Date(this.value);
+//                 var today = new Date();
+//                 var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+//                 $('#usia').val(age);
+//             });
+//                     function bacaGambar(input) {
+//                     if (input.files && input.files[0]) {
+//                         var reader = new FileReader();
                     
-                        reader.onload = function (e) {
-                            $('#preview').attr('src', e.target.result);
+//                         reader.onload = function (e) {
+//                             $('#preview').attr('src', e.target.result);
 
-                        }
+//                         }
                     
-                        reader.readAsDataURL(input.files[0]);
-                    }
-                    }
-                    function ReviewPic(input) {
-                    if (input.files && input.files[0]) {
-                        var reader = new FileReader();
+//                         reader.readAsDataURL(input.files[0]);
+//                     }
+//                     }
+//                     function ReviewPic(input) {
+//                     if (input.files && input.files[0]) {
+//                         var reader = new FileReader();
                     
-                        reader.onload = function (e) {
-                            $('#preview1').attr('src', e.target.result);
+//                         reader.onload = function (e) {
+//                             $('#preview1').attr('src', e.target.result);
 
-                        }
+//                         }
                     
-                        reader.readAsDataURL(input.files[0]);
-                    }
-                    }
+//                         reader.readAsDataURL(input.files[0]);
+//                     }
+//                     }
                       
-		function hanyaAngka(evt) {
-				// alert('a');
-				  var charCode = (evt.which) ? evt.which : event.keyCode;
-				   if (charCode > 31 && (charCode < 48 || charCode > 57))
+// 		function hanyaAngka(evt) {
+// 				// alert('a');
+// 				  var charCode = (evt.which) ? evt.which : event.keyCode;
+// 				   if (charCode > 31 && (charCode < 48 || charCode > 57))
 		 
-				    return false;
-				  return true;
-				}
-				function hanyaChar(evt){
-				// alert('a');
+// 				    return false;
+// 				  return true;
+// 				}
+// 				function hanyaChar(evt){
+// 				// alert('a');
 
-					 var charCode = (evt.which) ? evt.which : event.keyCode;
-			         if ((charCode < 65) || (charCode == 32))
-			            return false;        
-			         return true;
-				}
+// 					 var charCode = (evt.which) ? evt.which : event.keyCode;
+// 			         if ((charCode < 65) || (charCode == 32))
+// 			            return false;        
+// 			         return true;
+// 				}
 
 </script>
-
-
-
-<!-- <?php if (isset($pesan)) {?>
-<?php if($pesan !== ""){ ?>
-	<label id="pesan"><?php echo $pesan; ?></label>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			var pesan = $("label#pesan").text();
-			$.alert({
-			    title: 'Duplicate!',
-			    content: pesan,
-			});
-		});
-	</script>
-
-<?php } } ?> -->
-
