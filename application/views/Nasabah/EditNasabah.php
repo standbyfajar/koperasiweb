@@ -180,6 +180,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label class="col-sm-2 control-label">TotalTabungan</label>
+                                                    <div class="col-sm-2">
+                                                    <input type="text" name="total" onkeypress="return hanyaAngka(event)" value="<?php echo $datakar->total_tabungan; ?>" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label class="col-sm-2 control-label">Foto</label>
                                                     <div class="col-sm-2">
                                                     <!-- <input type="hidden" name="ftlama" value="<//?php echo $datakar->Foto; ?>"> -->

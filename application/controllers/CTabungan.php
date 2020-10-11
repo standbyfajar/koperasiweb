@@ -48,31 +48,33 @@ class CTabungan extends CI_Controller
 		}else{
 			// jika tidak error maka data disimpan
 			$kod=$this->input->post('id');
+			$nomor=$this->input->post('nomor_nasabah');
 			$tgl=$this->input->post('tgl');
-			$tglpinjam= $this->input->post('tglpinjam');
-			$nomor=$this->input->post('nomor');
+			$bulan= $this->input->post('bulan');
+			$nominal=$this->input->post('nominal');
 			$ket=$this->input->post('ket');
 		
 
 			
 			// validasi data double
 			$x = array('nomor_tabungan' =>$kod  );
-			$cari=$this->ModelGue->GetWhere('pengajuan',$x);
+			$cari=$this->ModelGue->GetWhere('transaksi_tabungan',$x);
 
 			if(count($cari)>0){
 				// $hasil=$this->modelsaya->semuadata('barang');
-				$data= array('nomor_transaksi'=>$kod,'pesan'=>'data Id tidak boleh Sama');
-				$this->load->view('Pengajuan/NewPengajuan',$data);
+				$data= array('nomor_tabungan'=>$kod,'pesan'=>'data Id tidak boleh Sama');
+				$this->load->view('Tabungan/NewTabungan',$data);
 			}else{
-				$data = array('nomor_transaksi' =>$kod ,
-				'tanggal_transaksi'=>$tgl,
+				$data = array('nomor_tabungan' =>$kod ,
 				'nomor_nasabah'=>$nomor,
-				'tanggal_peminjaman'=>$tglpinjam,
+				'tanggal_transaksi'=>$tgl,
+				'bulan'=>$bulan,
+				'nominal'=>$nominal,
 				'keterangan'=>$ket);
 				
 				// simpan data ke tabel 
-				$this->ModelGue->insert('pengajuan',$data);
-				$a=base_url('CPengajuan');
+				$this->ModelGue->insert('transaksi_tabungan',$data);
+				$a=base_url('CTabungan');
 				redirect($a);
 				// atau memanggil ke index
 				// $this->index()
@@ -80,32 +82,34 @@ class CTabungan extends CI_Controller
 		}
 	}
 	public function editT($id){
-		$where = array('nomor_transaksi' =>$id );
-		$datanasabah=$this->ModelGue->GetWhere('pengajuan',$where);
-		$data=array('datakar'=>$datanasabah);
-		$this->load->view('Pengajuan/EditPengajuan',$data );
+		$where = array('nomor_tabungan' =>$id );
+		$datatabungan=$this->ModelGue->GetWhere('transaksi_tabungan',$where);
+		$data=array('datakar'=>$datatabungan);
+		$this->load->view('Tabungan/EditTabungan',$data );
 	}
 	function updateT(){
 		$kod=$this->input->post('id');
+		$nomor=$this->input->post('nomor_nasabah');
 		$tgl=$this->input->post('tgl');
-		$tglpinjam= $this->input->post('tglpinjam');
-		$nomor=$this->input->post('nomor');
+		$bulan= $this->input->post('bulan');
+		$nominal=$this->input->post('nominal');
 		$ket=$this->input->post('ket');
-		$data = array('nomor_nasabah'=>$omor,'tanggal_transaksi'=>$tgl,'tanggal_peminjaman'=>$tglpinjam,
+		$data = array('nomor_nasabah'=>$omor,
+		'tanggal_transaksi'=>$tgl,'bulan'=>$bulan,'nominal'=>$nominal,
 		'keterangan'=>$ket);
 		
 		// simpan data ke tabel jurusan
-		$where=array('nomor_transaksi'=>$kod);
-		$this->ModelGue->update('pengajuan',$data,$where);
-		$a=base_url('CPengajuan');
+		$where=array('nomor_tabungan'=>$kod);
+		$this->ModelGue->update('transaksi_tabungan',$data,$where);
+		$a=base_url('CTabungan');
 		redirect($a);
 		// atau memanggil ke index
 		// $this->barang();
 	}
-		function deletT($id_nasabah){
-		$syarat = array('nomor_Ttransaksi' => $id_nasabah );
-		$this->ModelGue->delete('pengajuan',$syarat);
-		redirect(base_url('CPengajuan'));
+		function deletT($nomor_tabungan){
+		$syarat = array('nomor_tabungan' => $nomor_tabungan );
+		$this->ModelGue->delete('transaksi_tabungan',$syarat);
+		redirect(base_url('CTabungan'));
 	}	
     
 }

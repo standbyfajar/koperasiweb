@@ -20,6 +20,104 @@ class CNasabah extends CI_Controller
 		$data=array('datakr'=>$hasil);
 		$this->load->view('Nasabah/ListNasabah',$data);
 	}
+	public function send($nomor_nasabah)
+	{
+		
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+    	$config['smtp_port']    = '465'; 
+
+        $config['smtp_user']    = 'koperasisahabatmandiri@gmail.com';
+        $config['smtp_pass']    = 'Cakung99';
+		$config['charset']    = 'iso-8859-1';
+		
+		//untuk email ke penerima sesuai database
+		$hasil= $this->ModelData->datanasabah($nomor_nasabah);
+		
+		//untuk body email
+		$data = array(
+			'message'=> $this->input->post('message'),
+			'namanya'=> $hasil->nama_nasabah
+				);
+		$body = $this->load->view('Nasabah/Verifikasi',$data,TRUE); 
+		$this->load->library('email',$config);
+
+		$this->email->set_newline("\r\n");
+		$this->email->set_mailtype("html");
+        $this->email->from('koperasisahabatmandiri@gmail.com', 'ADMIN_KOPERASI');
+        $this->email->to($hasil->email); 
+        $this->email->subject('Email Konfirmasi Pengajuan');
+        $this->email->message($body);  
+		// $this->email->send();
+        
+		if ($this->email->send()) {
+		 			echo "send";
+				} else {
+				echo "aul";
+				}
+				
+	}
+
+	public function sendCancel($nomor_nasabah)
+	{
+		
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+    	$config['smtp_port']    = '465'; 
+
+        $config['smtp_user']    = 'koperasisahabatmandiri@gmail.com';
+        $config['smtp_pass']    = 'Cakung99';
+		$config['charset']    = 'iso-8859-1';
+		
+		//untuk email ke penerima sesuai database
+		$hasil= $this->ModelData->datanasabah($nomor_nasabah);
+		
+		//untuk body email
+		$data = array(
+			'message'=> $this->input->post('message'),
+			'namanya'=> $hasil->nama_nasabah
+				);
+		$body = $this->load->view('Nasabah/VerifikasiNot',$data,TRUE); 
+		$this->load->library('email',$config);
+
+		$this->email->set_newline("\r\n");
+		$this->email->set_mailtype("html");
+        $this->email->from('koperasisahabatmandiri@gmail.com', 'ADMIN_KOPERASI');
+        $this->email->to($hasil->email); 
+        $this->email->subject('Email Verifikasi Nasabah');
+        $this->email->message($body);  
+		// $this->email->send();
+        
+		if ($this->email->send()) {
+		 			echo "send";
+				} else {
+				echo "aul";
+				}
+				
+	}
+
+	function ver($nomor_nasabah){
+		
+		$data = array('status'=>'Allowed');		
+		// simpan data 
+		$where=array('nomor_nasabah'=>$nomor_nasabah);
+		$this->ModelGue->update('nasabah',$data,$where);
+		$a=base_url('CNasabah');
+		$this->send($nomor_nasabah);
+		redirect($a);
+		
+	}
+	function vercancel($nomor_nasabah){
+		
+		$data = array('status'=>'Not Allowed');
+		
+		// simpan data ke tabel jurusan
+		$where=array('nomor_nasabah'=>$nomor_nasabah);
+		$this->ModelGue->update('nasabah',$data,$where);
+		$a=base_url('CNasabah');
+		$this->sendCancel($nomor_nasabah);
+		redirect($a);
+	}
 
 	function get_nasabah($id){
 		
@@ -156,29 +254,32 @@ class CNasabah extends CI_Controller
 		}
 	}
 	function updatenasabah(){
+
 		$kod=$this->input->post('id');
 		$nama=$this->input->post('nama');
-		$eml=$this->input->post('eml');
 		$tmpt= $this->input->post('tmptlhr');
 		$tgl=$this->input->post('tgllahir');
-		$dep=$this->input->post('depart');
-		$jbt=$this->input->post('jbt');
-		$shf=$this->input->post('shf');
-
-		$jen=$this->input->post('jk');
-		$tel=$this->input->post('tel');
-		$nmB=$this->input->post('nmBank');
-		$accNo=$this->input->post('accNo');
-		$stat=$this->input->post('status');
-		$ank=$this->input->post('anak');
-		$npwp=$this->input->post('npwp');		
-		$gj=$this->input->post('gaji');
+		$usia=$this->input->post('usia');
+		$jk=$this->input->post('jk');
+		$typidentitas=$this->input->post('type');
+		$noidentitas=$this->input->post('noidentitas');
+		$alm=$this->input->post('alm');
+		$bank=$this->input->post('bank');
+		$rek=$this->input->post('rek');
+		$tlp=$this->input->post('tlp');
+		$gaji=$this->input->post('gaji');
 		$ft=$this->upload();
+		$ft2=$this->upload2();
+
 		
-		$data = array('nama_nasabah'=>$nama,'alamat'=>$eml,'tmptlahir'=>$tmpt,'tgllahir'=>$tgl,'id_department'=>$dep,'position'=>$jbt,'idShift'=>$shf,'jenis_kelamin'=> $jen,'nomor_telpon'=>$tel,'nm_bank'=>$nmB,'accNo_bank'=>$accNo,'status'=>$stat,'anak'=>$ank,'npwp'=>$npwp,'gaji'=>$gj,'Foto'=>$ft);
+		$data = array('nama_nasabah'=>$nama,'tempat_lahir'=>$tmpt,
+		'tanggal_lahir'=>$tgl,'usia'=>$usia,'jenis_kelamin'=>$jk,'type_identitas'=>$typidentitas,
+		'no_identitas'=> $noidentitas,
+		'alamat'=>$alm,'Bank'=>$bank,'no_rek'=>$rek,'telepon'=>$tlp,'Gaji'=>$gaji,'total_tabungan'=>$npwp,
+		'Foto'=>$gj,'Foto_Identitas'=>$ft,'status'=>$stat);
 		
 		// simpan data ke tabel jurusan
-		$where=array('nik'=>$kod);
+		$where=array('nomor_nasabah'=>$kod);
 		$this->ModelGue->update('nasabah',$data,$where);
 		$a=base_url('Cnasabah');
 		redirect($a);

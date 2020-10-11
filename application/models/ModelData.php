@@ -80,7 +80,11 @@ class ModelData extends CI_Model
 		$hsl=$this->db->query($query);
 		return $hsl->row();
 	}
-
+	function datanasabah($nomor_nasabah){
+		$query="select a.*,b.email From Nasabah a inner join login b on a.nomor_nasabah=b.nomor_nasabah where a.nomor_nasabah=".$nomor_nasabah;
+		$hsl=$this->db->query($query);
+		return $hsl->row();
+	}
 	
 
 	function get_notrans(){

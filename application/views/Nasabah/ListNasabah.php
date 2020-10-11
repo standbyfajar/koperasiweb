@@ -61,9 +61,10 @@
 								<th>No</th>
 								<th>Id Nasabah</th>
 								<th>Nama Nasabah</th>
-								<th>Tempat Lahir</th>
+								<!-- <th>Tempat Lahir</th> -->
 								<th>Tanggal Lahir</th>
 								<th>Type Identitas</th>
+								<th>Status</th>
 								<th>Aksi &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CNasabah/tambahnasabah'); ?>"  role="button" title="New">
 									<span class="glyphicon glyphicon-plus"></span> New</a>
 									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
@@ -81,13 +82,34 @@
 								<td><?php echo $n; ?></td>
 								<td><?php echo $row->nomor_nasabah; ?></td>
 								<td><?php echo $row->nama_nasabah; ?></td>
-								<td><?php echo $row->tempat_lahir; ?></td>
+								<!-- <td><?php echo $row->tempat_lahir; ?></td> -->
 								<td><?php echo $row->tanggal_lahir; ?></td>
 								<td><?php echo $row->type_identitas; ?></td>
-								<!-- <td><?php //echo $row->jenis_kelamin; ?></td>
-								<td><?php //echo $row->nomor_telpon; ?></td>
-								<td><?php //echo $row->gaji; ?></td>
-						-->
+								<td>
+								<?php 
+									if ($row->status =='Allowed') { ?>
+									Allowed
+									 
+
+								<?php	}
+								else if ($row->status== 'Not Allowed') {?>
+									Not Allowed
+								
+								<?php }
+								else { ?>
+									<a href="<?= base_url('CNasabah/ver/').$row->nomor_nasabah; ?>" class="btn btn-primary btn-xs">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+									<path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+									</svg>
+									</a>	
+									<a href="<?= base_url('CNasabah/vercancel/').$row->nomor_nasabah; ?>" class="btn btn-danger btn-xs" title="Cancel" >
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+									</svg></a>
+								<?php }
+								?>
+								</td>
 								
 								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CNasabah/editnasabah/').$row->nomor_nasabah; ?>">
 									<span class="glyphicon glyphicon-edit">Edit</span> </a>
