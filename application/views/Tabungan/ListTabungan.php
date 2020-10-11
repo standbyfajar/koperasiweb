@@ -89,9 +89,9 @@
 								<td><?php echo $row->keterangan; ?></td>
 						
 								
-								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CNasabah/editnasabah/').$row->nomor_tabungan; ?>">
+								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CTabungan/editT/').$row->nomor_tabungan; ?>">
 									<span class="glyphicon glyphicon-edit">Edit</span> </a>
-									<a class="btn btn-danger btn-xs" href="<?php echo base_url('CNasabah/deletnasabah/').$row->nomor_tabungan; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
+									<a class="btn btn-danger btn-xs" href="<?php echo base_url('CTabungan/deletT/').$row->nomor_tabungan; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
 									<span class="glyphicon glyphicon-remove"></span> Delete</a>
 									<button data-id="<?php echo $row->nomor_tabungan; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
 							</tr><?php
@@ -173,7 +173,7 @@
 										<!-- heading modal -->
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title">Data Nasabah</h4>
+											<h4 class="modal-title">Data Tabungan</h4>
 										</div>
 										<!-- body modal -->
 									<div class="panel panel-info">
@@ -183,44 +183,47 @@
 								<div class="col-sm-12">
 									<form class="form-horizontal" action="<?php echo base_url('') ?>" method="POST" name="formbook" enctype="multipart/form-data">
 									<div class="row">
-										<div class="col-sm">
+										<div class="col-sm-6">
 											<div class="form-group">
-											<label class="col-sm-2 control-label">Nomor Nasabah</label>
+											<label class="col-sm-2 control-label">Nomor Transaksi Tabungan</label>
 											<div class="col-sm-2">
 											<input type="text" id="id" value="" readonly>
 											
 										</div></div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label">Nama Nasabah</label>
+											<label class="col-sm-2 control-label">nomor Nasabah</label>
 											<div class="col-sm-3">
 											<input type="text" id="nama" readonly>
 										</div></div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label">Tanggal Lahir</label>
+											<label class="col-sm-2 control-label">Tanggal Transaksi</label>
 											<div class="col-sm-2">
-											<input type="text" id="eml" readonly>
+											<input type="text" id="tgl" readonly>
 										</div></div>
 
 										<div class="form-group">
-											<label class="col-sm-2 control-label">Tempat Lahir</label>
+											<label class="col-sm-2 control-label">Bulan</label>
 											<div class="col-sm-2">
-											<input type="text" id="tmpt" readonly>
+											<input type="text" id="bln" readonly>
 											
 										</div></div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label">type Identitas</label>
+											<label class="col-sm-2 control-label">nominal</label>
 											<div class="col-sm-2">
-											<input type="text" id="type" readonly>
+											<input type="text" id="nominal" readonly>
 										</div></div>
-											</div>
-
+										<div class="form-group">
+											<label class="col-sm-2 control-label">keterangan</label>
+											<div class="col-sm-2">
+											<input type="text" id="ket" readonly>
+										</div></div>
+										</div>
 										<div class="col-sm">
 										<div class="form-group">
-										<img src="" id="foto" class="img-responsive" width="300px">
-										</div>
-											</div>
+										<img src="" id="foto" class="img-responsive" width="200px">
+										</div></div>
 
-									</div>
+										</div>
 									</form>
 								</div>
 										
@@ -287,16 +290,17 @@
 	$(".btn_detail").click(function(){
 			nomor=$(this).attr("data-id");
 			// console.log(nomor);
-			$.ajax({url: "<?php echo base_url('CNasabah/get_nasabah/') ?>"+nomor, 
+			$.ajax({url: "<?php echo base_url('CTabungan/get_tabungan/') ?>"+nomor, 
 			method :"POST",
 			dataType:"json",
 			success: function(result){
 				$("#id").val(result.nomor_tabungan);
-				$('#nama').val(result.nama_nasabah);
-				$('#eml').val(result.tanggal_lahir);
-				$('#tmpt').val(result.tempat_lahir);
-				$('#type').val(result.type_identitas);
-				$('#foto').attr('src','<?=base_url()?>image/'+result.Foto);
+				$('#nama').val(result.nomor_nasabah);
+				$('#tgl').val(result.tanggal_transaksi);
+				$('#bln').val(result.bulan);
+				$('#nominal').val(result.nominal);
+				$('#ket').val(result.keterangan);
+				$('#foto').attr('src','<?=base_url()?>image/'+result.upload_transaksi);
 			}});
 
 							$('#infoModal').modal("show");

@@ -47,7 +47,7 @@
                         <div class="col-sm-12">
                             <!-- untuk isi -->
                             <div class="panel panel-info">
-                                <div class="panel-heading">Formulir Input Tabungan</div><br>
+                                <div class="panel-heading">Formulir Update Tabungan</div><br>
                                     <div class="panel-body">
                                                     <?php if (isset($pesan)) {?>
                                                         <div class="alert alert-danger" role="alert">
@@ -58,27 +58,27 @@
                                                         <?php 
                                                                             } ?>
                                             <!-- awal pembuatan form -->
-                                    <form class="form-horizontal" action="<?php echo base_url('CTabungan/saveT') ?>" method="POST" name="formbook" enctype="multipart/form-data">
+                                    <form class="form-horizontal" action="<?php echo base_url('CTabungan/updateT') ?>" method="POST" name="formbook" enctype="multipart/form-data">
                                       <div class="row">
                                           <div class="col-sm">
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">No Transaksi Tabungan</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="id" >
+                                                <input type="text" name="id" value="<?php echo $datakar->nomor_tabungan; ?>">
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <label class="col-sm-5 control-label">Tanggal Transaksi</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tgl" >
+                                                <input type="date" name="tgl" value="<?php echo $datakar->tanggal_transaksi; ?>">
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Bulan</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="bln" id="bln" readonly>
+                                                <input type="text" name="bln" id="bln" readonly value="<?php echo $datakar->bulan; ?>">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -95,7 +95,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">No Nasabah</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="nomor" onkeypress ="">
+                                                    <input type="text" name="nomor" onkeypress ="" value="<?php echo $datakar->nomor_nasabah; ?>">
                                                     <label for="nomor" value="">aa</label>
                                                     
                                                     </div>
@@ -103,7 +103,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Nominal</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="nominal" onkeypress ="">
+                                                    <input type="text" name="nominal" onkeypress ="" value="<?php echo $datakar->nominal; ?>">
                                                     
                                                     </div>
                                                 </div>
@@ -111,16 +111,12 @@
                                                     <label class="col-sm-3 control-label">Keterangan</label>
                                                     <div class="col-sm-2">
                                                     <!-- <input type="text" name="ket" onkeypress =""> -->
-                                                    <textarea name="ket" id="" cols="30" rows="2"></textarea>
+                                                    <textarea name="ket" id="" cols="30" rows="3" >
+                                                    <?php echo $datakar->keterangan; ?>
+                                                    </textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Upload Transaksi</label>
-                                                    <div class="col-sm-2">
-                                                    <input type="File" name="ft" accept=".jpg,.png,.jpeg" onchange="bacaGambar(this)">
-                                                    <img id="preview" src="" alt="" width="80px"/>
-                                                    </div>
-                                                </div>
+                                            
 
                                               
                                                 

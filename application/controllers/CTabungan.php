@@ -16,6 +16,26 @@ class CTabungan extends CI_Controller
 		$data=array('datakr'=>$hasil);
 		$this->load->view('Tabungan/ListTabungan',$data);
 	}
+	function upload(){
+		if (isset($_FILES['ft'])) {
+			if ($_FILES['ft']['name'] !="") {
+				$eks=explode('.',$_FILES['ft']['name']);
+				$nb=rand().'.'.$eks[1];
+
+				$config['file_name']=$nb;
+				$config['upload_path'] ='./image';
+				$config['allowed_types']='gif|jpg|png|jpeg';
+
+				$this->load->library('upload',$config);
+				$this->upload->do_upload('ft');
+				return $nb;
+
+			}else{
+				$namafoto=$this->input->post('ftlama');
+				return($namafoto);
+			}
+		}
+	}
 	function get_T($id){
 		
 		$data = array('nomor_tabungan'=>$id);
@@ -48,12 +68,12 @@ class CTabungan extends CI_Controller
 		}else{
 			// jika tidak error maka data disimpan
 			$kod=$this->input->post('id');
-			$nomor=$this->input->post('nomor_nasabah');
+			$nomor=$this->input->post('nomor');
 			$tgl=$this->input->post('tgl');
 			$bulan= $this->input->post('bulan');
 			$nominal=$this->input->post('nominal');
 			$ket=$this->input->post('ket');
-		
+			$ft=$this->upload();
 
 			
 			// validasi data double
@@ -70,7 +90,8 @@ class CTabungan extends CI_Controller
 				'tanggal_transaksi'=>$tgl,
 				'bulan'=>$bulan,
 				'nominal'=>$nominal,
-				'keterangan'=>$ket);
+				'keterangan'=>$ket,
+				'upload_transaksi'=>$ft);
 				
 				// simpan data ke tabel 
 				$this->ModelGue->insert('transaksi_tabungan',$data);
@@ -89,14 +110,16 @@ class CTabungan extends CI_Controller
 	}
 	function updateT(){
 		$kod=$this->input->post('id');
-		$nomor=$this->input->post('nomor_nasabah');
+		$nomor=$this->input->post('nomor');
 		$tgl=$this->input->post('tgl');
 		$bulan= $this->input->post('bulan');
 		$nominal=$this->input->post('nominal');
 		$ket=$this->input->post('ket');
-		$data = array('nomor_nasabah'=>$omor,
+		$ft=$this->upload();
+
+		$data = array('nomor_nasabah'=>$oomor,
 		'tanggal_transaksi'=>$tgl,'bulan'=>$bulan,'nominal'=>$nominal,
-		'keterangan'=>$ket);
+		'keterangan'=>$ket,'upload_transaksi'=>$ft);
 		
 		// simpan data ke tabel jurusan
 		$where=array('nomor_tabungan'=>$kod);
@@ -111,6 +134,13 @@ class CTabungan extends CI_Controller
 		$this->ModelGue->delete('transaksi_tabungan',$syarat);
 		redirect(base_url('CTabungan'));
 	}	
+	function get_tabungan($id){
+		
+		$data = array('nomor_tabungan'=>$id);
+		$hasil = $this->ModelGue->GetWhere('transaksi_tabungan',$data); 
+
+		echo json_encode($hasil);
+	}
     
 }
 

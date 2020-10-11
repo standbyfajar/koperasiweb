@@ -85,14 +85,7 @@
                   <p>Peminjaman</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Laporan</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+        
           <li class="nav-item">
             <a href="<?php echo base_url('Clogin/logout') ?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -102,6 +95,38 @@
               </p>
             </a>
           </li>
+          </ul>
+          
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Laporan
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href=<?php echo base_url('CLaporan/Laporan_perbln') ?> class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Laporan perbulan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url('CLaporan/Laporan_peruser') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Laporan PerUser</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url('#') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Laporan PerTransaksi</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- <li class="nav-header">EXAMPLES</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -244,37 +269,6 @@
               </li>
             </ul>
           </li>
-          
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Tables
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-header">EXAMPLES</li>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
@@ -379,7 +373,7 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
@@ -413,13 +407,8 @@
                   <p>Recover Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/examples/lockscreen.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lockscreen</p>
-                </a>
-              </li>
-              <li class="nav-item">
+              
+              <!-- <li class="nav-item">
                 <a href="pages/examples/legacy-user-menu.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Legacy User Menu</p>
@@ -462,15 +451,15 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-header">MISCELLANEOUS</li>
+          </li> -->
+          <!-- <li class="nav-header">MISCELLANEOUS</li>
           <li class="nav-item">
             <a href="https://adminlte.io/docs/3.0" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Documentation</p>
             </a>
-          </li>
-          <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+          </li> -->
+          <!-- <li class="nav-header">MULTI LEVEL EXAMPLE</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
@@ -553,7 +542,7 @@
               <i class="nav-icon far fa-circle text-info"></i>
               <p>Informational</p>
             </a>
-          </li>
+          </li> -->
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
