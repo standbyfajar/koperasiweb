@@ -52,127 +52,127 @@
 			<div class="container-fluid">
 				<div class="col-sm-12">
 							<!-- untuk isi -->
-							<div class="panel panel-info">
-								<div class="panel-heading">Daftar Nasabah</div>
-							<div class="panel-body">
-							<table class="table" id="tbl_one">
-							<thead>
-								<tr>
-								<th>No</th>
-								<th>Id Nasabah</th>
-								<th>Nama Nasabah</th>
-								<!-- <th>Tempat Lahir</th> -->
-								<th>Tanggal Lahir</th>
-								<th>Type Identitas</th>
-								<th>Status</th>
-								<th>Aksi &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CNasabah/tambahnasabah'); ?>"  role="button" title="New">
-									<span class="glyphicon glyphicon-plus"></span> New</a>
-									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
-							</tr>
-							</thead>
-						<tbody>
+							<div class="card card-primary">
+								<div class="card-header">Daftar Nasabah</div>
+									<div class="panel-body">
+									<table class="table" id="tbl_one">
+									<thead>
+										<tr>
+										<th>No</th>
+										<th>Id Nasabah</th>
+										<th>Nama Nasabah</th>
+										<!-- <th>Tempat Lahir</th> -->
+										<th>Tanggal Lahir</th>
+										<th>Type Identitas</th>
+										<th>Status</th>
+										<th>Aksi &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CNasabah/tambahnasabah'); ?>"  role="button" title="New">
+											<span class="glyphicon glyphicon-plus"></span> New</a>
+											<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
+									</tr>
+									</thead>
+									<tbody>
 
-						<?php 
-						// $n=0;
-						$n=0;
-						foreach ($datakr as $row) {
-							$n++;
-							?>
-							<tr>
-								<td><?php echo $n; ?></td>
-								<td><?php echo $row->nomor_nasabah; ?></td>
-								<td><?php echo $row->nama_nasabah; ?></td>
-								<!-- <td><?php echo $row->tempat_lahir; ?></td> -->
-								<td><?php echo $row->tanggal_lahir; ?></td>
-								<td><?php echo $row->type_identitas; ?></td>
-								<td>
-								<?php 
-									if ($row->status =='Allowed') { ?>
-									Allowed
-									 
+									<?php 
+									// $n=0;
+									$n=0;
+									foreach ($datakr as $row) {
+										$n++;
+										?>
+										<tr>
+											<td><?php echo $n; ?></td>
+											<td><?php echo $row->nomor_nasabah; ?></td>
+											<td><?php echo $row->nama_nasabah; ?></td>
+											<!-- <td><?php echo $row->tempat_lahir; ?></td> -->
+											<td><?php echo $row->tanggal_lahir; ?></td>
+											<td><?php echo $row->type_identitas; ?></td>
+											<td>
+											<?php 
+												if ($row->status =='Allowed') { ?>
+												Allowed
+												
 
-								<?php	}
-								else if ($row->status== 'Not Allowed') {?>
-									Not Allowed
-								
-								<?php }
-								else { ?>
-									<a href="<?= base_url('CNasabah/ver/').$row->nomor_nasabah; ?>" class="btn btn-primary btn-xs">
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-									<path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
-									</svg>
-									</a>	
-									<a href="<?= base_url('CNasabah/vercancel/').$row->nomor_nasabah; ?>" class="btn btn-danger btn-xs" title="Cancel" >
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-									</svg></a>
-								<?php }
-								?>
-								</td>
-								
-								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CNasabah/editnasabah/').$row->nomor_nasabah; ?>">
-									<span class="glyphicon glyphicon-edit">Edit</span> </a>
-									<a class="btn btn-danger btn-xs" href="<?php echo base_url('CNasabah/deletnasabah/').$row->nomor_nasabah; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
-									<span class="glyphicon glyphicon-remove"></span> Delete</a>
-									<button data-id="<?php echo $row->nomor_nasabah; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
-							</tr><?php
-						}
-							?>
-							</tbody>
-							</table>
-							<!-- <?php //echo $this->pagination->create_links(); ?> -->
-							</div>
-						</div>
-							<!-- Modal -->
-							<div id="myModal" class="modal fade" role="dialog" >
-								<div class="modal-dialog modal-lg">
-									<!-- konten modal-->
-									<div class="modal-content">
-										<!-- heading modal -->
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title"></h4>
-										</div>
-										<!-- body modal -->
-									<div class="panel panel-info">
-										
-										<div class="modal-body" style="overflow: auto;">
-
-									<div>
-										<div style="overflow: auto;">
+											<?php	}
+											else if ($row->status== 'Not Allowed') {?>
+												Not Allowed
 											
-											<table class="table">
-												<thead>
-													<th>No</th>
-													<th>Id Nasabah</th>
-													<th>Nama Nasabah</th>
-													<th>Type Identitas</th>
-													<th>No Identitas</th>
-													<th>No Rekening</th>
-													<th>Alamat</th>
-
-												
-
-												</thead>
-												<?php 
-										// $n=0;
-										$n=0;
-										foreach ($datakr as $row) {
-											$n++;
+											<?php }
+											else { ?>
+												<a href="<?= base_url('CNasabah/ver/').$row->nomor_nasabah; ?>" class="btn btn-primary btn-xs">
+												<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2-all" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												<path fill-rule="evenodd" d="M12.354 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+												<path d="M6.25 8.043l-.896-.897a.5.5 0 1 0-.708.708l.897.896.707-.707zm1 2.414l.896.897a.5.5 0 0 0 .708 0l7-7a.5.5 0 0 0-.708-.708L8.5 10.293l-.543-.543-.707.707z"/>
+												</svg>
+												</a>	
+												<a href="<?= base_url('CNasabah/vercancel/').$row->nomor_nasabah; ?>" class="btn btn-danger btn-xs" title="Cancel" >
+												<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+												<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+												</svg></a>
+											<?php }
 											?>
+											</td>
+											
+											<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CNasabah/editnasabah/').$row->nomor_nasabah; ?>">
+												<span class="glyphicon glyphicon-edit">Edit</span> </a>
+												<a class="btn btn-danger btn-xs" href="<?php echo base_url('CNasabah/deletnasabah/').$row->nomor_nasabah; ?>" role="button" title="Delete"  title="delete nasabah" onclick="return confirm('benar akan dihapus?');" >
+												<span class="glyphicon glyphicon-remove"></span> Delete</a>
+												<button data-id="<?php echo $row->nomor_nasabah; ?>" type="button" class="btn btn-info btn-xs btn_detail" ><span class="glyphicon glyphicon-th-large"></span>info</button></td>
+										</tr><?php
+									}
+										?>
+										</tbody>
+										</table>
+								<!-- <?php //echo $this->pagination->create_links(); ?> -->
+								</div>
+							</div>
+								<!-- Modal -->
+								<div id="myModal" class="modal fade" role="dialog" >
+									<div class="modal-dialog modal-lg">
+										<!-- konten modal-->
+										<div class="modal-content">
+											<!-- heading modal -->
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title"></h4>
+											</div>
+											<!-- body modal -->
+										<div class="panel panel-info">
+											
+											<div class="modal-body" style="overflow: auto;">
 
-												<tbody>
-												<td><?php echo $n; ?></td>
-												<td><?php echo $row->nomor_nasabah; ?></td>
-												<td><?php echo $row->nama_nasabah; ?></td>
-												<td><?php echo $row->type_identitas; ?></td>
-												<td><?php echo $row->no_identitas; ?></td>
-												<td><?php echo $row->no_rek; ?></td>
-												<td><?php echo $row->alamat; ?></td>
+										<div>
+											<div style="overflow: auto;">
 												
-												</tbody><?php } ?>
-											</table>
+												<table class="table">
+													<thead>
+														<th>No</th>
+														<th>Id Nasabah</th>
+														<th>Nama Nasabah</th>
+														<th>Type Identitas</th>
+														<th>No Identitas</th>
+														<th>No Rekening</th>
+														<th>Alamat</th>
+
+													
+
+													</thead>
+													<?php 
+											// $n=0;
+											$n=0;
+											foreach ($datakr as $row) {
+												$n++;
+												?>
+
+													<tbody>
+													<td><?php echo $n; ?></td>
+													<td><?php echo $row->nomor_nasabah; ?></td>
+													<td><?php echo $row->nama_nasabah; ?></td>
+													<td><?php echo $row->type_identitas; ?></td>
+													<td><?php echo $row->no_identitas; ?></td>
+													<td><?php echo $row->no_rek; ?></td>
+													<td><?php echo $row->alamat; ?></td>
+													
+													</tbody><?php } ?>
+												</table>
 										</div>
 										
 									</div>

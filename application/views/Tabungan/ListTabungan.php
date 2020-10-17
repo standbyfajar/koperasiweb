@@ -52,8 +52,8 @@
 			<div class="container-fluid">
 				<div class="col-sm-12">
 							<!-- untuk isi -->
-							<div class="panel panel-info">
-								<div class="panel-heading">Daftar Tabungan</div>
+							<div class="card card-primary">
+								<div class="card-header">Daftar Tabungan</div>
 							<div class="panel-body">
 							<table class="table" id="tbl_one">
 							<thead>
@@ -64,11 +64,10 @@
 								<th>Bulan</th>
 								<th>Tanggal Transaksi</th>
 								<th>Nominal</th>
-								<th>Keterangan</th>
-
-								<th>Aksi &nbsp;<a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CTabungan/tambahT'); ?>"  role="button" title="New">
-									<span class="glyphicon glyphicon-plus"></span> New</a>
-									<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button></th>
+								<th>Ket</th> 
+								<th>Aksi <br><a  class="btn btn-primary btn-xs btn_new" href="<?php echo base_url('CTabungan/tambahT'); ?>"  role="button" title="New">
+								<span class="glyphicon glyphicon-plus"></span> New</a>
+								<button  type="button" class="btn btn-info btn-xs btn_details" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-th-large"></span>Details</button>
 							</tr>
 							</thead>
 						<tbody>
@@ -87,7 +86,6 @@
 								<td><?php echo $row->tanggal_transaksi; ?></td>
 								<td><?php echo $row->nominal; ?></td>
 								<td><?php echo $row->keterangan; ?></td>
-						
 								
 								<td><a class="btn btn-primary btn-xs" role="button" title="Edit" href="<?php echo base_url('CTabungan/editT/').$row->nomor_tabungan; ?>">
 									<span class="glyphicon glyphicon-edit">Edit</span> </a>

@@ -97,7 +97,7 @@
                                                     <label class="col-sm-3 control-label">No Nasabah</label>
                                                     <div class="col-sm-2">
                                                     <input type="text" name="nomor" id="nomor">
-                                                    <label id="nomorL" >.</label>
+                                                    <label id="nomorL" ></label>
                                                     
                                                     </div>
                                                 </div>

@@ -53,8 +53,8 @@
 			<div class="container-fluid">
 				<div class="col-sm-12">
 							<!-- untuk isi -->
-							<div class="panel panel-info">
-								<div class="panel-heading">Daftar Pengajuan</div>
+							<div class="card card-primary">
+								<div class="card-header">Daftar Pengajuan</div>
 							<div class="panel-body">
 							<table class="table" id="tbl_one">
 							<thead>
