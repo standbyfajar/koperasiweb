@@ -31,7 +31,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/summernote/summernote-bs4.css');?>">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+  <!-- AutoComplete  -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/jquery/jquery-ui.css');?>">
 </head>
 <!-- Menu atas  -->
 <?php $this->load->view('Navbar'); ?>
@@ -95,8 +96,8 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">No Nasabah</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="nomor" onkeypress ="">
-                                                    <label for="nomor" value="">aa</label>
+                                                    <input type="text" name="nomor" id="nomor">
+                                                    <label id="nomorL" >.</label>
                                                     
                                                     </div>
                                                 </div>
@@ -189,12 +190,40 @@
     
 </html>
 <script type="text/javascript">
-            $('#tgllahir').on('change', function() {
-                var dob = new Date(this.value);
-                var today = new Date();
-                var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
-                $('#usia').val(age);
-            });
+        $( "#nomor" ).autocomplete({
+                source: function( request, response ) {
+                // Fetch data
+                $.ajax({
+                    url: "<?=base_url()?>CTabungan/autocomp",
+                    type: 'post',
+                    dataType: "json",
+                    data: {
+                    term: request.term
+                    },
+                    success: function( data ) {
+                        // console.log(data);
+                        response( data );
+                    }
+                });
+                },
+                select: function (event, ui) {
+                // Set selection
+                //   $('#no_pengajuan').val(ui.item.label); // display the selected text
+                $('#nomor').val(ui.item.value); // save selected id to input
+                $.ajax({
+                    url: "<?php echo base_url(''); ?>" + 'CTabungan/get_nasabah/' + ui.item.value,
+                    type: "post",
+                    dataType: "json",
+                    success:function(data){
+                        console.log(data);
+                        $("#nomor").val(data.nomor_nasabah);
+                        $("#nomorL").text(data.nama_nasabah);
+                    }
+                })
+                return false;
+
+                }
+            }); 
                     function bacaGambar(input) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();

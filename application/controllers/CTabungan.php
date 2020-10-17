@@ -141,6 +141,23 @@ class CTabungan extends CI_Controller
 
 		echo json_encode($hasil);
 	}
+	function autocomp(){
+		
+		// POST data
+		$postData = $this->input->post('term');
+
+		// Get data
+		$data = $this->ModelData->get_nasabah($postData);
+	
+		echo json_encode($data);
+   }
+	   
+	function get_nasabah($id){
+				
+		$hasil = $this->ModelData->ambil_nasabah($id); 
+
+		echo json_encode($hasil);
+	}
     
 }
 

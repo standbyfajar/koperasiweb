@@ -32,6 +32,8 @@
   <link rel="stylesheet" href="<?php echo base_url('assets/AdminLTE/plugins/summernote/summernote-bs4.css');?>">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- AutoComplete  -->
+  <link rel="stylesheet" href="<?php echo base_url('assets/jquery/jquery-ui.css');?>">
 
 </head>
 
@@ -72,14 +74,14 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Tanggal Transaksi</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tgl" >
+                                                <input type="text" name="tgl" readonly value="<?php echo date('Y-M-d')?>">
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">Tanggal Peminjaman</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tglpinjam" id="tglpinjam">
+                                                <input type="date" name="tglpinjam" id="tglpinjam" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -94,10 +96,10 @@
                                         <div class="col-sm">
                                              
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label">No Nasabah</label>
+                                                    <label class="col-sm-4 control-label">No Nasabah</label>
                                                     <div class="col-sm-2">
                                                     <input type="text" name="nomor" id="nomor"/>
-                                                    <label for="nomor" value="">aa</label>
+                                                    <label id="nomorL"></label>
                                                     
                                                     </div>
                                                 </div>
@@ -146,7 +148,7 @@
 <script src="<?php echo base_url('assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?php echo base_url('assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
@@ -177,33 +179,39 @@
     
 </html>
 <script type="text/javascript">
-$("#nomor").keyup(() => {
-    console.log("a")
-    $("#nomor").autocomplete({
-        // width:150;
-        source: ['aa', 'dd']
-        $.ajax({
-            url:"<?php echo base_url('CPengajuan/ckaryawan'); ?>",
-            type:"GET",
-            data:"nomor="+$(this).val(),
-            dataType:"json",
-            success: function(jar){
-                console.log('a');
-                
-            
+$( "#nomor" ).autocomplete({
+        source: function( request, response ) {
+          // Fetch data
+          $.ajax({
+            url: "<?=base_url()?>CPengajuan/autocomp",
+            type: 'post',
+            dataType: "json",
+            data: {
+              term: request.term
             },
-            error:function(xhr){
-                console.log(xhr);
+            success: function( data ) {
+                // console.log(data);
+                response( data );
             }
-        });
-    })
-})
-            $('#tgllahir').on('change', function() {
-                var dob = new Date(this.value);
-                var today = new Date();
-                var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
-                $('#usia').val(age);
-            });
+          });
+        },
+        select: function (event, ui) {
+          // Set selection
+          $('#nomor').val(ui.item.value); // save selected id to input
+          $.ajax({
+              url: "<?php echo base_url(''); ?>" + 'CPengajuan/get_nasabah/' + ui.item.value,
+              type: "post",
+              dataType: "json",
+              success:function(data){
+                  console.log(data);
+                  $("#nomor").val(data.nomor_nasabah);
+                  $("#nomorL").text(data.nama_nasabah);
+              }
+          })
+          return false;
+
+        }
+      });                                                                       
                     function bacaGambar(input) {
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();

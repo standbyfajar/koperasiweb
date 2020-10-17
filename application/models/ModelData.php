@@ -30,6 +30,24 @@ class ModelData extends CI_Model
 
 		return $response;
 	}
+	function get_nasabah($postData){
+		$response = array();
+
+		if(isset($postData) ){
+			// Select record
+			$this->db->select('*');
+			$this->db->where("nomor_nasabah like '%".$postData."%' ");
+
+			$records = $this->db->get('nasabah')->result();
+
+			foreach($records as $row ){
+				$response[] = array("value"=>$row->nomor_nasabah,"label"=>$row->nama_nasabah);
+			}
+
+		}
+
+		return $response;
+	}
 		public function getUser($id){
 		$query = $this->db->get_where('login',array('username'=>$id));
 		return $query->row_array();
@@ -58,14 +76,14 @@ class ModelData extends CI_Model
         $hasil=$this->db->query($query)->row();
         return $hasil;
     }
-	function combokaryawan(){
-		$quer="SELECT * from karyawan";
+	function combonasabah(){
+		$quer="SELECT * from nasabah";
 		$hasil=$this->db->query($quer);
 		return $hasil;
 	}
 
-	function data_karyawan($nik){
-      $myquery="select * from karyawan where nik='$nik'";
+	function ambil_nasabah($nomor){
+      $myquery="select * from nasabah where nomor_nasabah=".$nomor;
       $kasus=$this->db->query($myquery);
       return $kasus->row();
 	}
@@ -81,10 +99,11 @@ class ModelData extends CI_Model
 		return $hsl->row();
 	}
 	function datanasabah($nomor_nasabah){
-		$query="select a.*,b.email From Nasabah a inner join login b on a.nomor_nasabah=b.nomor_nasabah where a.nomor_nasabah=".$nomor_nasabah;
+		$query="select a.*,b.email From nasabah a inner join login b on a.nomor_nasabah=b.nomor_nasabah where a.nomor_nasabah=".$nomor_nasabah;
 		$hsl=$this->db->query($query);
 		return $hsl->row();
 	}
+
 	
 
 	function get_notrans(){
@@ -149,12 +168,13 @@ class ModelData extends CI_Model
 		return $hsl->row();
 	}
 	function laporan_bln($tglawal,$tglakhir){
-		$query="SELECT d_cashadvance.id_pinjam,h_cashadvance.tgl_pinjam,d_cashadvance.jumlah_pinjam,d_cashadvance.keterangan,h_cashadvance.total from d_cashadvance inner join h_cashadvance on d_cashadvance.id_pinjam=h_cashadvance.id_pinjam where (tgl_pinjam>='$tglawal' and tgl_pinjam<='$tglakhir')";
+		$query="SELECT a.nomor_pinjam,a.tanggal_transaksi,a.nomor_nasabah,b.nama_nasabah,a.nominal,a.keterangan from peminjaman a inner join nasabah b ON a.nomor_nasabah=b.nomor_nasabah where (tanggal_transaksi>='$tglawal' and tanggal_transaksi<='$tglakhir')";
 			$kasus=$this->db->query($query)->result();
 		      return $kasus;
 	}
-	function laporan_user($tglawal,$tglakhir,$kode_karyawan){
-		$qr="SELECT d_cashadvance.id_pinjam,h_cashadvance.tgl_pinjam,karyawan.nama_karyawan,d_cashadvance.jumlah_pinjam,d_cashadvance.keterangan,h_cashadvance.total from d_cashadvance inner join h_cashadvance on d_cashadvance.id_pinjam=h_cashadvance.id_pinjam inner join karyawan on h_cashadvance.nik=karyawan.nik where (tgl_pinjam>='$tglawal' and tgl_pinjam<='$tglakhir') and (h_cashadvance.nik='$kode_karyawan')";
+	function laporan_user($tglawal,$tglakhir,$nasabah){
+		$qr="SELECT a.nomor_pinjam,a.tanggal_transaksi,a.nomor_nasabah,b.nama_nasabah,a.nominal,a.keterangan from peminjaman a inner join nasabah b ON a.nomor_nasabah=b.nomor_nasabah 
+		where (tanggal_transaksi>='$tglawal' and tanggal_transaksi<='$tglakhir') and (a.nomor_nasabah='$nasabah')";
 		$kasus=$this->db->query($qr)->result();
 		return $kasus;	
 	}

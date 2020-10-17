@@ -54,13 +54,13 @@
                     <div class="container-fluid">
                         <div class="row">
                             <!-- left column -->
-                            <div class="col-md-5">
+                            <div class="col-md-12">
                                 <!-- general form elements -->
                                 <div class="card card-primary">
                                     <div class="card-header">
                                         <h3 class="card-title">Laporan Perbulan</h3>
                                     </div>
-                                        <form class="form-horizontal" name="formbook" enctype="multipart/form-data" action="<?php echo base_url('Pinjam/act_preview') ?> " method="POST" >
+                                        <form class="form-horizontal" name="formbook" enctype="multipart/form-data" action="<?php echo base_url('CLaporan/act_preview') ?> " method="POST" >
                                         <div class="form-group">
                                             <label style="margin-top: 5px;" class="col-md-4 control-label">Dari tanggal</label>
                                                 <div class="col-md-8">
@@ -80,6 +80,85 @@
                                             <div class="col-sm-4">			
                                         </div>
                     					</form>
+
+                                        <div class="col-sm-12">
+                                            <?php 
+                                            if ($this->session->muncul==true) {
+                                                # code...
+                                            
+                                            ?>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                            <h5>Laporan Peminjaman</h5>
+                                            <h6>Periode tanggal : <?php echo $tglawal; ?> sampai <?php echo $tglakhir; ?></h6>
+                                        </div>
+                                            <table class="table table-bordered" id="TabelLaporan">
+                                                <thead>
+                                                    <tr class="info">
+                                                        <th style="width:35px;">No</th>
+                                                        <th style="width:130px;">Nomor Transaksi</th>
+                                                        <th style="width:250px;">Tanggal Transaksi</th>
+                                                        <th style="width:150px;">Nomor Nasabah</th>
+                                                        <th style="width:150px;">Nama Nasabah</th>
+                                                        <th style="width:75px;">Keterangan</th>
+                                                        <th style="width:75px;">Jumlah Uang</th>
+                                                        <!-- <th style="width:40px;"></th> -->
+
+                                                    </tr>
+                                                </thead>
+                                                <?php 
+                                            
+                                            ?>
+                                                <tbody>
+                                                    <?php 
+                                                    $no=0;
+                                                    $tot=0;
+                                                        $qti=0;
+                                                    foreach ($laporan as $row) {
+                                                        $no++;
+                                                        $tot=$tot+$row->nominal;
+
+                                                        ?>
+
+                                                        <tr>
+                                                            <td><?php echo $no; ?></td>
+                                                            <td><?php echo $row->nomor_pinjam; ?></td>
+                                                            <td><?php echo $row->tanggal_transaksi; ?></td>
+                                                            <td><?php echo $row->nomor_nasabah; ?></td>
+                                                            <td><?php echo $row->nama_nasabah; ?></td>
+                                                            <td><?php echo $row->keterangan; ?></td>
+                                                            <td><?php echo $row->nominal; ?></td>
+                                                           
+                                                        </tr>
+
+                                                        <?php 
+
+                                                    }
+                                                    ?> 
+                                                        <tr>
+                                                            <td colspan="6" align="right">
+                                                                Total:
+                                                            </td>
+
+
+                                                            <td align="right">
+                                                                <?php echo number_format($tot,0) ?>
+                                                            </td>
+                                                        </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                            <a href="<?php echo base_url('CLaporan/list_penjualan_pdf'); ?>" type="button" class="btn btn-success" target="_blank">Print PDF</a>
+                                            <?php } ?>
+                                        
+                                        
+                                        </div>
+
                                 </div>
                             </div>
                         </div>

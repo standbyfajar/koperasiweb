@@ -207,6 +207,23 @@ class CPengajuan extends CI_Controller
 		$this->ModelGue->delete('pengajuan',$syarat);
 		redirect(base_url('CPengajuan'));
 	}	
+	function autocomp(){
+		
+		// POST data
+		$postData = $this->input->post('term');
+
+		// Get data
+		$data = $this->ModelData->get_nasabah($postData);
+	
+		echo json_encode($data);
+   }
+	   
+	function get_nasabah($id){
+				
+		$hasil = $this->ModelData->ambil_nasabah($id); 
+
+		echo json_encode($hasil);
+	}
 	function ckaryawan(){
 		var_dump('A');
 		$id=$this->input->post('nomor');

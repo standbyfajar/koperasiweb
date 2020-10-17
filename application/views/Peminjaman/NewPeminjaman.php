@@ -72,7 +72,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-5 control-label">Tanggal Transaksi</label>
                                                 <div class="col-sm-2">
-                                                <input type="date" name="tgl" id="tgl" value ="<?php echo date('Y-m-d') ?>" readonly>
+                                                <input type="text" name="tgl" id="tgl" value ="<?php echo date('Y-m-d') ?>" readonly>
                                                 </div>
                                             </div>
                                             
@@ -270,60 +270,6 @@ $( "#no_pengajuan" ).autocomplete({
         }
       });
 
-
-
-
-// $("#nomor").keyup(() => {
-//     console.log("a")
-//     $("#nomor").autocomplete({
-//         // width:150;
-//         source: ['aa', 'dd']
-//         $.ajax({
-//             url:"<?php echo base_url('CPengajuan/ckaryawan'); ?>",
-//             type:"GET",
-//             data:"nomor="+$(this).val(),
-//             dataType:"json",
-//             success: function(jar){
-//                 console.log('a');
-                
-            
-//             },
-//             error:function(xhr){
-//                 console.log(xhr);
-//             }
-//         });
-//     })
-// })
-//             $('#tgllahir').on('change', function() {
-//                 var dob = new Date(this.value);
-//                 var today = new Date();
-//                 var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
-//                 $('#usia').val(age);
-//             });
-//                     function bacaGambar(input) {
-//                     if (input.files && input.files[0]) {
-//                         var reader = new FileReader();
-                    
-//                         reader.onload = function (e) {
-//                             $('#preview').attr('src', e.target.result);
-
-//                         }
-                    
-//                         reader.readAsDataURL(input.files[0]);
-//                     }
-//                     }
-//                     function ReviewPic(input) {
-//                     if (input.files && input.files[0]) {
-//                         var reader = new FileReader();
-                    
-//                         reader.onload = function (e) {
-//                             $('#preview1').attr('src', e.target.result);
-
-//                         }
-                    
-//                         reader.readAsDataURL(input.files[0]);
-//                     }
-//                     }
                       
 // 		function hanyaAngka(evt) {
 // 				// alert('a');

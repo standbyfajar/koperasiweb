@@ -52,55 +52,139 @@
                 <div class="right_col" role="main">
                 <!-- <section class="content"> -->
                     <div class="container-fluid">
-                        <div class="row">
+                        <!-- <div class="row"> -->
                             <!-- left column -->
-                            <div class="col-md-5">
+                            <!-- <div class="col-md-12"> -->
                                 <!-- general form elements -->
                                 <div class="card card-primary">
                                     <div class="card-header">
                                         <h3 class="card-title">Laporan PerUser</h3>
                                     </div>
-                                        <form class="form-horizontal" name="formbook" enctype="multipart/form-data" action="<?php echo base_url('Pinjam/act_preview') ?> " method="POST" >
-                                        <div class="form-group">
-                                            <label style="margin-top: 5px;" class="col-md-4 control-label">Dari tanggal</label>
-                                                <div class="col-md-8">
-                                                    <input type="date" name="dari" id="dari" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                        <form class="form-horizontal" name="formbook" enctype="multipart/form-data" action="<?php echo base_url('CLaporan/act_preview_karyawan') ?> " method="POST" >
+                                           <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label style="margin-top: 5px;" class="col-md-5 control-label">Dari tanggal</label>
+                                                        <div class="col-md-7">
+                                                            <input type="date" name="dari" id="dari" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                                        </div>
                                                 </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label style="margin-top: 5px;" class="col-md-4 control-label">sampai Tanggal</label>
-                                                <div class="col-md-8">
-                                                    <input type="date" name="sampai" id="sampai" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                                <div class="form-group">
+                                                    <label style="margin-top: 5px;" class="col-sm-5 control-label">Nama Nasabah</label>
+                                                        <div class="col-sm-7">
+                                                            <select  class="form-control input-sm" id="nasabah" name="nasabah">
+                                                                <option value="">==Pilih Nama==</option>
+                                                                <?php 
+                                                                if ($cmbkar->num_rows() > 0) {
+                                                                    foreach ($cmbkar->result() as $row ) {
+                                                                        echo "<option value='$row->nomor_nasabah'>
+                                                                        $row->nama_nasabah
+                                                                        </option>";
+
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
                                                 </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="margin-top: 5px;" class="col-sm-4 control-label">Nama Nasabah</label>
-                                                <div class="col-sm-8">
-                                                    <select  class="form-control input-sm" id="nasabah" name="nasabah">
-                                                    <option value="">==Pilih Nama==</option>
+                                                <div class="form-group">
+                                                        <div class="col-md-4">
+                                                        <button type="submit" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-print"></span>Preview</a></button>
+                                                        </div>
+                                                </div>
+                                                   
+                                            </div>
+                                            <div class="col-md-6">
+                                                 <div class="form-group">
+                                                    <label style="margin-top: 5px;" class="col-md-5 control-label">sampai Tanggal</label>
+                                                        <div class="col-md-7">
+                                                            <input type="date" name="sampai" id="sampai" class="form-control" value="<?php echo date('Y-m-d') ?>">
+                                                        </div>
+                                                </div>
+                                            </div>
+                    					</form>
+
+                                        <div class="col-sm-7">
+                                            <?php 
+                                            if ($this->session->muncul==true) {
+                                                # code...
                                             
+                                            ?>
+                                        </div>
 
+                                        <div class="col-sm-8">
+                                            <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                            <h5>Laporan Peminjaman Cash</h5>
+                                            <h6>Periode tanggal : <?php echo $tglawal; ?> sampai <?php echo $tglakhir; ?></h6>
+                                        </div>
+                                            <table class="table table-bordered" id="TabelLaporan">
+                                                <thead>
+                                                    <tr class="info">
+                                                        <th style="width:35px;">No</th>
+                                                        <th style="width:130px;">No Transaksi</th>
+                                                        <th style="width:150px;">Tanggal pinjam</th>
+                                                        <th >Nama Karyawan</th>
+                                                        <th style="width:75px;">Keterangan</th>
+                                                        <th style="width:75px;">Jumlah Pinjam</th>
+                                                        <!-- <th style="width:125px;text-align: right;">Total</th> -->
+                                                        <!-- <th style="width:40px;"></th> -->
+
+                                                    </tr>
+                                                </thead>
                                                 <?php 
-                                                if ($cmbkar->num_rows() > 0) {
-                                                    foreach ($cmbkar->result() as $row ) {
-                                                    echo "<option value='$row->nomor_nasabah'>
-                                                    $row->nama_nasabah
-                                                    </option>";
+                                            
+                                            ?>
+                                                <tbody>
+                                                    <?php 
+                                                    $no=0;
+                                                    $tot=0;
+                                                        $qti=0;
+                                                    foreach ($laporan as $row) {
+                                                        $no++;
+                                                        
+
+                                                        $tot=$tot+$row->nominal;
+                                                        // $qti=$qti+$row->jumlah_beli;
+                                                        ?>
+
+                                                        <tr>
+                                                            <td><?php echo $no; ?></td>
+                                                            <td><?php echo $row->nomor_pinjam; ?></td>
+                                                            <td><?php echo $row->tanggal_transaksi; ?></td>
+                                                            <td><?php echo $row->nama_nasabah; ?></td>
+                                                            <td><?php echo $row->keterangan; ?></td>
+                                                            <td><?php echo $row->nominal; ?></td>
+                                                        </tr>
+
+                                                        <?php 
 
                                                     }
-                                                }
-                                                ?>
-                                            </select>
-                                        <div class="col-sm-3"></div>
-                                            <div class="col-sm-4">
-                                                    <button type="submit" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-print"></span>Preview</a></button>										</div>
-                                            <div class="col-sm-4">			
+                                                    ?> 
+                                                    <tr>
+                                                        <td colspan="5" align="right">
+                                                            Total:
+                                                        </td>
+
+
+                                                        <td align="right">
+                                                            <?php echo number_format($tot,0) ?>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
                                         </div>
-                    					</form>
+                                        <a href="<?php echo base_url('CLaporan/list_peminjaman_user_pdf'); ?>" type="button" class="btn btn-success" target="_blank">Print PDF</a>
+                                        <?php } ?>
+                                        
+                                        
+                                        </div>
                                 </div>
-                            </div>
-                        </div>
+                            <!-- </div> -->
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>
