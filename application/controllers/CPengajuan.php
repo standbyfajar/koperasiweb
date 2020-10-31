@@ -13,10 +13,58 @@ class CPengajuan extends CI_Controller
 	}
 
 	function index(){
+		if (!isset($this->session->hd)) 
+				{
+					$no= $this->ModelData->get_ppUrut();
+					// $notransbaru= "TR".date('Y-m-d').sprintf("%03s",$no->transaksi+1);
+					$n=$no->Ppurut+1;
+					// echo $n;
+					$notransbaru="PP".date('y-m-d').substr('000'.$n,-3,3);
+
+					$datasesi=array('noPP'=>$notransbaru,'tanggal'=>date('y-m-d'),'nik'=>'');
+					$this->session->set_userdata($datasesi);
+
+					$this->session->set_userdata('hd',0);
+
+				}
+		$nota=$this->session->noPP;
 		$hasil=$this->ModelGue->semuadata('pengajuan');
 		$data=array('datakr'=>$hasil);
 		$this->load->view('Pengajuan/ListPengajuan',$data);
 	}
+	function tambahP(){
+		$idp=$this->session->noPP;
+		$ses=array('hd'=>0,
+					'noPP'=>'',
+					'tanggal'=>'',
+					'nik'=>'');
+		$this->session->unset_userdata($ses);
+		$this->ModelData->updatePP($idp);
+		$this->session->unset_userdata('hd',0);
+
+		$hasil=$this->ModelGue->semuadata('pengajuan');
+		$data= array('datakar'=>$hasil);
+		$this->load->view('Pengajuan/NewPengajuan',$data);
+	}
+	public function transaksibatal()
+	{
+		$nota=$this->session->noPP;
+		$hasil=$this->ModelData->data_detil($nota);
+		$ses=array('hd'=>0,
+					'noPP'=>'',
+					'tanggal'=>'',
+					'nik'=>'');
+		$this->session->set_userdata($ses);
+		$this->session->unset_userdata('hd');
+		$this->ModelData->cancelPP($nota);
+		// ini udah bisa
+		$where=array('nomor_transaksi'=>$nota);
+		$this->ModelGue->delete('pengajuan',$where);
+		
+		$this->session->set_userdata('pesan','Data Transakasi Telah dibatalkan');
+		redirect(base_url().'CPengajuan');
+	}
+
 	public function send($nomor_transaksi)
 	{
 		
@@ -123,11 +171,7 @@ class CPengajuan extends CI_Controller
 
 		echo json_encode($hasil);
 	}
-	function tambahP(){
-		$hasil=$this->ModelGue->semuadata('pengajuan');
-		$data= array('datakar'=>$hasil);
-		$this->load->view('Pengajuan/NewPengajuan',$data);
-	}
+
 
 	function saveP(){
 		// buat validasi data
@@ -242,6 +286,94 @@ class CPengajuan extends CI_Controller
 		foreach ($query->result() as $row ) {
 			echo "$row->nama_nasabah \n";
 		}
+	}
+	function delete_detil($id_pinjam)
+
+	{
+		$where=array('nomor_transaksi'=>$id_pinjam);
+		
+		$dat=$this->ModelGue->GetWhere('pengajuan',$where);
+
+		// ini script ngapus dateta detail
+		$this->ModelGue->delete('pengajuan',$where);
+
+		$this->session->set_userdata('pesan','Data pengajuan peminjam sudah dihapus');
+		redirect(base_url().'CPengajuan');
+	}
+	public function Cetak_form($noPP){
+		$this->session->set_userdata('muncul',true);
+
+		$where=array('nomorPP'=>$noPP);
+		$datadetil=$this->ModelData->cetak_formPP($noPP);	
+
+		// if (count($datadetil)==0) {
+		// 	$this->session->set_userdata('pesan','Belum ada data');
+		// 	redirect(base_url().'Cpermintaan');
+		// 	exit;
+		// }
+		$this->load->library('fpdf');
+		$pdf= new FPDF('P','mm','A4');
+		$pdf->AddPage();
+		// judul baris 1
+		$pdf->SetFont('Arial','B',14);
+		$title="Form Pengajuan Peminjaman";
+		$pdf->SetTitle($title);
+		$pdf->SetAuthor('Fajar karunia');
+		// cell(width,height,text,border,endline, align)
+			$pdf->Cell(200,4,'Form Pengajuan Peminjaman  ',0,1,'C');
+			$pdf->Cell(205,4,'Di Koperasi Sahabat Mandiri ',0,1,'C');
+			$pdf->Cell(205,4,'Jln Komarudin ',0,1,'C');
+
+		$pdf->Ln();
+		$pdf->SetFont('Arial','',11);
+		// cell(width,height,text,border,endline, align)
+		// $pdf->Cell(8,8,'',1,0,'C');
+			$pdf->Cell(95,8,'No Pengajuan ',0,0,'C');
+			$pdf->Cell(5,8,':',0,0,'C');
+			$pdf->Cell(45,8,$datadetil->nomor_transaksi,0,1,'C');
+
+
+			$pdf->Cell(95,8,'Tanggal ',0,0,'C');
+			$pdf->Cell(5,8,':',0,0,'C');
+			$pdf->Cell(45,8,$datadetil->tanggal_transaksi,0,1,'C');
+
+			$pdf->Cell(95,8,'No Nasabah ',0,0,'C');
+			$pdf->Cell(5,8,':',0,0,'C');
+			$pdf->Cell(45,8,$datadetil->nomor_nasabh,0,1,'C');
+
+			$pdf->Cell(95,8,'Tanggal Peminjaman ',0,0,'C');
+			$pdf->Cell(5,8,':',0,0,'C');
+			$pdf->Cell(45,8,$datadetil->tanggal_peminjaman,0,1,'C');
+
+			$pdf->Cell(95,8,'Deskripsi ',0,0,'C');
+			$pdf->Cell(5,8,':',0,0,'C');
+			$pdf->Cell(45,8,$datadetil->keterangan,0,1,'C');
+
+		$pdf->Ln();
+			$pdf->SetLineWidth(0.5);
+			$pdf->Line(20, 25, 190, 25);
+
+		$pdf->Ln();
+			//menentukan tebal
+			$pdf->SetLineWidth(0.5);
+			
+			//menentukan titik awal dan titik akhir garis yang akan di buat (x1,y1,x2,y2)
+			$pdf->Ln();
+			$pdf->Cell(300,5,'Prepared By,',0,1,'C');
+			$pdf->Line(85, 135, 45, 135); 
+			$pdf->Cell(60,70,$datadetil->nama_nasabah,0,0,'R');  //nama 
+			// $pdf->Line(135, 135, 175, 135); 
+			// $pdf->Cell(100,70,$datadetil->admin,0,1,'R');  //nama 
+
+
+
+			// $pdf->Line(85, 125, 125, 125); 
+
+		
+		
+
+		$pdf->Output('I');
+
 	}
 }
 

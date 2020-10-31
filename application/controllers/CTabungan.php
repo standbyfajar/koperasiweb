@@ -12,6 +12,22 @@ class CTabungan extends CI_Controller
 		$this->load->model('ModelData');
     }
     function index(){
+
+		if (!isset($this->session->hd)) 
+		{
+			$no= $this->ModelData->get_ppUrutTabungan();
+			// $notransbaru= "TR".date('Y-m-d').sprintf("%03s",$no->transaksi+1);
+			$n=$no->Ppuruttabungan+1;
+			// echo $n;
+			$notransbaru="TB".date('y-m-d').substr('0000'.$n,-4,4);
+
+			$datasesi=array('noPP'=>$notransbaru,'tanggal'=>date('y-m-d'),'nik'=>'');
+			$this->session->set_userdata($datasesi);
+
+			$this->session->set_userdata('hd',0);
+
+		}
+		$nota=$this->session->noPP;
 		$hasil=$this->ModelGue->semuadata('transaksi_tabungan');
 		$data=array('datakr'=>$hasil);
 		$this->load->view('Tabungan/ListTabungan',$data);
@@ -44,6 +60,15 @@ class CTabungan extends CI_Controller
 		echo json_encode($hasil);
 	}
 	function tambahT(){
+		$idp=$this->session->noPP;
+		$ses=array('hd'=>0,
+					'noPP'=>'',
+					'tanggal'=>'',
+					'nik'=>'');
+		$this->session->unset_userdata($ses);
+		$this->ModelData->updateNotabungan($idp);
+		$this->session->unset_userdata('hd',0);
+
 		$hasil=$this->ModelGue->semuadata('transaksi_tabungan');
 		$data= array('datakar'=>$hasil);
 		$this->load->view('Tabungan/NewTabungan',$data);

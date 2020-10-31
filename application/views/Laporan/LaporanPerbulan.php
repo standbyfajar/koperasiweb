@@ -153,7 +153,9 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                            <a href="<?php echo base_url('CLaporan/list_penjualan_pdf'); ?>" type="button" class="btn btn-success" target="_blank">Print PDF</a>
+                                            
+                                            <a href="<?php echo base_url('CLaporan/list_penjualan_pdf?tglawal='
+                                            .$this->session->tglawal.'&tglakhir='.$this->session->tglakhir); ?>" type="button" class="btn btn-success" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> Print PDF</a>
                                             <?php } ?>
                                         
                                         

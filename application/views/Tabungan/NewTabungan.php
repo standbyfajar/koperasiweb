@@ -65,7 +65,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">No Transaksi Tabungan</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="id" >
+                                                <input type="text" name="id" value="<?php echo $this->session->noPP; ?>" readonly>
                                                 </div>
                                             </div>
                                             
@@ -96,7 +96,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">No Nasabah</label>
                                                     <div class="col-sm-2">
-                                                    <input type="text" name="nomor" id="nomor">
+                                                    <input type="text" name="nomor" id="nomor" >
                                                     <label id="nomorL" ></label>
                                                     
                                                     </div>

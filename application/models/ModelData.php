@@ -116,8 +116,13 @@ class ModelData extends CI_Model
 		$hsl=$this->db->query($qr);
 		return $hsl->row();
 	}
+	function get_ppUrutTabungan(){
+		$qr="select PpurutTabungan from ppuruttabungan";
+		$hsl=$this->db->query($qr);
+		return $hsl->row();
+	}
 	function tpl(){
-		$qr="select * from cashadvancepermit ";
+		$qr="select * from pengajuan ";
 		$hsl=$this->db->query($qr);
 		return $hsl;
 	}
@@ -127,7 +132,7 @@ class ModelData extends CI_Model
 		return $hasil->row();
 	}
 	function data_PP(){
-		$qr="SELECT No_PP,cashadvancepermit.nik,tanggal,cashadvancepermit.id_department,nmDepart,cashadvancepermit.position,karyawan.gaji,gaji_blndpn FROM cashadvancepermit left join department on cashadvancepermit.id_department=department.idDepartment LEFT JOIN karyawan on cashadvancepermit.nik=karyawan.nik left join pinjaman on pinjaman.nik=karyawan.nik group by No_PP";
+		$qr="SELECT a.*,b.nama_nasabah,b.total_tabungan FROM pengajuan a left join nasabah b on a.nomor_nasabah=b.nomor_nasabah";
 		$hsl=$this->db->query($qr);
 		return $hsl;
 
@@ -149,7 +154,7 @@ class ModelData extends CI_Model
            
 	}
 	function data_detil($id_pinjam){
-      $myquery="select * from d_cashadvance where id_pinjam='$id_pinjam'";
+      $myquery="select * from pengajuan where nomor_transaksi='$id_pinjam'";
       $kasus=$this->db->query($myquery)->result();
       return $kasus;
 	}
@@ -161,9 +166,17 @@ class ModelData extends CI_Model
 	   	$myquery="update ppurut set Ppurut=Ppurut+1";
 	   	$kasus=$this->db->query($myquery);
 	}
+	function cancelPP(){
+		$myquery="update ppurut set Ppurut=Ppurut-1";
+		$kasus=$this->db->query($myquery);
+ }
+	function updateNotabungan(){
+		$myquery="update ppuruttabungan set Ppuruttabungan=Ppuruttabungan+1";
+		$kasus=$this->db->query($myquery);
+ }
 	function cetak_formPP($nota){
-		$qr="SELECT nomor_pengajuan,tanggal_transaksi,peminjaman.nomor_nasabah,nasabah.nama_nasabah,admin,keterangan from peminjaman 
-		inner join nasabah on peminjaman.nomor_nasabah= nasabah.nomor_nasabah where nomor_pinjam='$nota'";
+		$qr="SELECT a.nomor_transaksi,a.tanggal_transaksi,b.nomor_nasabah,b.nama_nasabah,a.tanggal_peminjaman,a.keterangan
+		 FROM pengajuan a INNER JOIN nasabah b ON a.nomor_nasabah=b.nomor_nasabah where nomor_transaksi='$nota'";
 		$hsl=$this->db->query($qr);
 		return $hsl->row();
 	}

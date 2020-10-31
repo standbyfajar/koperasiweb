@@ -197,7 +197,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Foto KTP</label>
                                                     <div class="col-sm-2">
-                                                    <img src="<?php echo base_url('image/'.$datakar->Foto_identitas.'');?>" height="50px" width="50px">
+                                                    <img src="<?php echo base_url('image/'.$datakar->Foto_Identitas.'');?>" height="50px" width="50px">
                                                     <input type="File" name="ft2" accept=".jpg,.png,.jpeg" onchange="ReviewPic(this)">
                                                     <img id="preview1" src="" alt="" width="150px"/>
                                                     </div>

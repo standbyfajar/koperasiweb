@@ -68,7 +68,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label">No Transaksi</label>
                                                 <div class="col-sm-2">
-                                                <input type="text" name="id" >
+                                                <input type="text" name="id" value="<?php echo $this->session->noPP; ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -85,10 +85,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                        <label class="col-sm-2 control-label"></label>
-                                                        <div class="col-sm-6">
                                                         <button type="submit" class="btn btn-primary" name="proses" value="proses"><span class="glyphicon glyphicon-save"></span>Simpan</button>
-                                                        </div>
+                                                        <button type='button' class='btn btn-danger' id='batal'><span class="glyphicon glyphicon-remove"></span> Transaksi Batal</button>
                                                 </div>
                                             
                                             </div>
@@ -179,6 +177,21 @@
     
 </html>
 <script type="text/javascript">
+$('#batal').click(function(){
+//	$('.modal-dialog').removeClass('modal-lg');
+	$('.modal-dialog').add('modal-sm');
+	$('#ModalHeader').html('Konfirmasi');
+	$('#ModalContent').html("Apakah yakin akan dibatalkan ?");
+	$('#ModalFooter').html("<button type='button' id='TransaksiBatal' class='btn btn-primary'>Ya, saya yakin</button><button type='button' class='btn btn-default' data-dismiss='modal' >Batal</button>");
+	$('#ModalGue').modal('show');
+});
+
+// kode untuk aksi dai transaksi baru
+$(document).on('click','#TransaksiBatal',function(){
+		$('#ModalGue').modal('hide');
+		window.open("<?php echo base_url('CPengajuan/transaksibatal')?>",'_self');
+});
+
 $( "#nomor" ).autocomplete({
         source: function( request, response ) {
           // Fetch data
@@ -255,6 +268,40 @@ $( "#nomor" ).autocomplete({
 				}
 
 </script>
+<div class="modal" id="ModalGue" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class='glyphicon glyphicon-remove'></i></button>
+						<h4 class="modal-title" id="ModalHeader"></h4>
+					</div>
+					<div class="modal-body btn-danger" id="ModalContent"></div>
+					<div class="modal-footer" id="ModalFooter"></div>
+				</div>
+			</div>
+		</div>
+
+
+<!-- modal konfirmasi class="modal fade"-->
+		<div id="modal-konfirmasi" class="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				 
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Konfirmasi</h4>
+				</div>
+				<div class="modal-body btn-info">
+					Apakah Anda yakin ingin menghapus data ini ?
+				</div>
+				<div class="modal-footer">
+					<a href="javascript:;" class="btn btn-danger" id="hapus-true-data">Hapus</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+				</div>
+				 
+				</div>
+			</div>
+		</div>
 
 
 

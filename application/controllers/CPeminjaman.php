@@ -15,8 +15,24 @@ class CPeminjaman extends CI_Controller
 	}
 
 	function index(){
+		if (!isset($this->session->hd)) 
+		{
+			$no= $this->ModelData->get_notrans();
+			// $notransbaru= "TR".date('Y-m-d').sprintf("%03s",$no->transaksi+1);
+			$n=$no->nota+1;
+			// echo $n;
+			$transnew="PM".date('y-m-d').substr('0000'.$n,-4,4);
+
+			$dtsession=array('noPM'=>$transnew,'tanggal'=>date('y-m-d'),'nik'=>'');
+			$this->session->set_userdata($dtsession);
+
+			$this->session->set_userdata('hd',0);
+
+		}
+		$nota=$this->session->noPP;
+		$PP=$this->ModelData->data_PP();
 		$hasil=$this->ModelGue->semuadata('peminjaman');
-		$data=array('datakar'=>$hasil);
+		$data=array('datakar'=>$hasil,'datapp'=>$PP);
 		$this->load->view('Peminjaman/ListPeminjaman',$data);
 	}
 	function autocomp(){
@@ -37,6 +53,15 @@ class CPeminjaman extends CI_Controller
 		echo json_encode($hasil);
 	}
 	function tambahP(){
+		$idp=$this->session->noPP;
+		$ses=array('hd'=>0,
+					'noPM'=>'',
+					'tanggal'=>'',
+					'nik'=>'');
+		$this->session->unset_userdata($ses);
+		$this->ModelData->updatenota($idp);
+		$this->session->unset_userdata('hd',0);
+
 		$hasil=$this->ModelGue->semuadata('peminjaman');
 		// $data= array('datakar'=>$hasil);
 		$this->load->view('Peminjaman/NewPeminjaman');
