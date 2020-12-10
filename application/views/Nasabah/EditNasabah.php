@@ -188,16 +188,17 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Foto</label>
                                                     <div class="col-sm-2">
-                                                    <!-- <input type="hidden" name="ftlama" value="<//?php echo $datakar->Foto; ?>"> -->
-                                                    <img src="<?php echo base_url('image/'.$datakar->Foto.'');?>" height="50px" width="50px">
+                                                    <input type="hidden" name="ftlama" value="<//?php echo $datakar->Foto; ?>">
+                                                    <img src="<?php echo base_url('image/'.$datakar->Foto.'');?>" <?php if(empty($datakar->Foto)){ echo 'style="display: none;"'; } ?> height="50px" width="50px">
                                                     <input type="File" name="ft" accept=".jpg,.png,.jpeg" onchange="bacaGambar(this)">
-                                                    <img id="preview" src="" alt="" height="50px" width="50px"/>
+                                                    <img id="preview" style="display: none;" src="" alt="" height="50px" width="50px"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Foto KTP</label>
                                                     <div class="col-sm-2">
-                                                    <img src="<?php echo base_url('image/'.$datakar->Foto_Identitas.'');?>" height="50px" width="50px">
+                                                    <input type="hidden" name="ftlama2" value="<//?php echo $datakar->Foto; ?>">
+                                                    <img src="<?php echo base_url('image/'.$datakar->Foto_Identitas.'');?>" <?php if(empty($datakar->Foto_Identitas)){ echo 'style="display: none;"'; } ?> height="50px" width="50px">
                                                     <input type="File" name="ft2" accept=".jpg,.png,.jpeg" onchange="ReviewPic(this)">
                                                     <img id="preview1" src="" alt="" width="150px"/>
                                                     </div>
@@ -284,6 +285,7 @@
                         var reader = new FileReader();
                     
                         reader.onload = function (e) {
+                            $('#preview').show();
                             $('#preview').attr('src', e.target.result);
 
                         }

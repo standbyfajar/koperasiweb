@@ -213,7 +213,7 @@ class CNasabah extends CI_Controller
 	}
 	function upload(){
 		if (isset($_FILES['ft'])) {
-			if ($_FILES['ft']['name'] !="") {
+			if (!empty($_FILES['ft']['name'])) {
 				$eks=explode('.',$_FILES['ft']['name']);
 				$nb=rand().'.'.$eks[1];
 
@@ -222,18 +222,20 @@ class CNasabah extends CI_Controller
 				$config['allowed_types']='gif|jpg|png|jpeg';
 
 				$this->load->library('upload',$config);
+				$this->upload->initialize($config);
 				$this->upload->do_upload('ft');
 				return $nb;
 
-			}else{
-				$namafoto=$this->input->post('ftlama');
-				return($namafoto);
 			}
+			// else{
+			// 	$namafoto=$this->input->post('ftlama');
+			// 	return($namafoto);
+			// }
 		}
 	}
 	function upload2(){
 		if (isset($_FILES['ft2'])) {
-			if ($_FILES['ft2']['name'] !="") {
+			if (!empty($_FILES['ft2']['name'])) {
 				$eks=explode('.',$_FILES['ft2']['name']);
 				$nb=rand().'.'.$eks[1];
 
@@ -243,14 +245,16 @@ class CNasabah extends CI_Controller
 			
 
 				$this->load->library('upload',$config);
+				$this->upload->initialize($config);
 				$this->upload->do_upload('ft2');
 				
 				return $nb;
 
-			}else{
-				$namafoto=$this->input->post('ftlama');
-				return($namafoto);
 			}
+			// else{
+			// 	$namafoto=$this->input->post('ftlama2');
+			// 	return($namafoto);
+			// }
 		}
 	}
 	function updatenasabah(){
@@ -275,9 +279,17 @@ class CNasabah extends CI_Controller
 		$data = array('nama_nasabah'=>$nama,'tempat_lahir'=>$tmpt,
 		'tanggal_lahir'=>$tgl,'usia'=>$usia,'jenis_kelamin'=>$jk,'type_identitas'=>$typidentitas,
 		'no_identitas'=> $noidentitas,
-		'alamat'=>$alm,'Bank'=>$bank,'no_rek'=>$rek,'telepon'=>$tlp,'Gaji'=>$gaji,'total_tabungan'=>$npwp,
-		'Foto'=>$gj,'Foto_Identitas'=>$ft,'status'=>$stat);
-		
+		'alamat'=>$alm,'Bank'=>$bank,'no_rek'=>$rek,'telepon'=>$tlp,'Gaji'=>$gaji,
+		// 'Foto'=>$ft,
+		// 'Foto_Identitas'=>$ft2,
+		'status'=>$stat);
+		if(!empty($ft)){
+			$data['Foto'] = $ft;
+		}
+		if(!empty($ft2)){
+			$data['Foto_Identitas'] = $ft2;
+		}
+
 		// simpan data ke tabel jurusan
 		$where=array('nomor_nasabah'=>$kod);
 		$this->ModelGue->update('nasabah',$data,$where);
